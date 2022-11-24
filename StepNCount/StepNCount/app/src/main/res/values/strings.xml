@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">StepNCount</string>
+    <string name="btn">Continue</string>
+    <string name="editTxt5" />
+    <string name="tv_gender">Gender</string>
+    <string name="tv_year">Year of birth</string>
+    <string name="tv_weight">Weight (kg)</string>
+    <string name="tv_height">Height (cm)</string>
+    <string name="tv_step">Step height (cm)</string>
+    <string name="tv_cal">Energy Expenditure (Kcal)</string>
+    <string name="tv_listGoals">Goals</string>
+    <string name="tv_config">Configuration</string>
+</resources>
