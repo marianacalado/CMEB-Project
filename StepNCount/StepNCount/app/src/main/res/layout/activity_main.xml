@@ -52,8 +52,8 @@
 
     <ProgressBar
         android:id="@+id/progBarDist"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/progressbar"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -78,8 +78,8 @@
 
     <ProgressBar
         android:id="@+id/progBarCal"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/progressbar"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -106,8 +106,8 @@
 
     <ProgressBar
         android:id="@+id/progBarTime"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/progressbar"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
