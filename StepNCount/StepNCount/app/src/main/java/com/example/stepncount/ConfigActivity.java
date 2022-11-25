@@ -21,6 +21,7 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
 
+    //evento guarda info e troca de atividade
     public void onBtnClick (View view) {
         TextView txtSex = findViewById(R.id.textView1);
         TextView txtBirth = findViewById(R.id.textView2);
@@ -34,6 +35,9 @@ public class ConfigActivity extends AppCompatActivity {
         EditText edtTxtHeight = findViewById(R.id.editTxt4);
         EditText edtTxtStepWeight = findViewById(R.id.editTxt5);
 
+        //guardar info
+
+        //trocar atividade
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
 
