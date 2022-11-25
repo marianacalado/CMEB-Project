@@ -157,7 +157,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/Btn"
-        android:text="@string/btn"
-        android:onClick="openMainPage"/>
+        android:text="@string/btn" />
 
 </LinearLayout>
