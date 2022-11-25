@@ -18,7 +18,7 @@
         android:gravity="center"
         android:inputType="textPersonName"
         android:text="@string/tv_listGoals"
-        android:textColor="@android:color/system_accent3_100"
+        android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:hint="Female"
+                android:hint="100000"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 android:textColorHint="@color/Text" />
@@ -69,7 +69,55 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="2003"
+                android:hint="200"
+                android:inputType="date|textPersonName"
+                android:minHeight="48dp"
+                android:textColorHint="@color/Text" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_dist"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/editTxt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="3"
+                android:inputType="date|textPersonName"
+                android:minHeight="48dp"
+                android:textColorHint="@color/Text" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_time"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/editTxt5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="30"
                 android:inputType="date|textPersonName"
                 android:minHeight="48dp"
                 android:textColorHint="@color/Text" />

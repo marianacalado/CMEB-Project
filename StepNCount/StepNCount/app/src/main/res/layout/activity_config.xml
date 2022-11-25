@@ -126,30 +126,6 @@
                 android:textColorHint="@color/Text" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tv_step"
-                android:textColor="@color/white" />
-
-            <EditText
-                android:id="@+id/editTxt5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="20"
-                android:imeOptions="actionDone"
-                android:inputType="number|textPersonName"
-                android:minHeight="48dp"
-                android:textColorHint="@color/Text" />
-        </TableRow>
     </TableLayout>
 
     <Button

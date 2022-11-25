@@ -6,7 +6,7 @@
     <string name="tv_year">Year of birth</string>
     <string name="tv_weight">Weight (kg)</string>
     <string name="tv_height">Height (cm)</string>
-    <string name="tv_step">Step height (cm)</string>
+    <string name="tv_step">Steps</string>
     <string name="tv_cal">Energy Expenditure (Kcal)</string>
     <string name="tv_listGoals">Goals</string>
     <string name="tv_config">Configuration</string>
@@ -14,4 +14,6 @@
     <string name="bt_not_enabled_leaving">Bluetooth was not enabled.</string>
     <string name="title_connected_to">connected to</string>
     <string name="title_not_connected">not connected</string>
+    <string name="tv_dist">Distance (km)</string>
+    <string name="tv_time">Time (h)</string>
 </resources>
