@@ -15,6 +15,9 @@ public class ConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
+        Button bt = findViewById(R.id.btn); //represent object como uma interface view (element in the layout), capture our button from layout
+        bt.setOnClickListener(this::onBtnClick); //defining a listener: register the onClick listener with the implementation
+        //the parameters can be a function that will be called when the user clicks on the button
     }
 
 
@@ -31,11 +34,13 @@ public class ConfigActivity extends AppCompatActivity {
         EditText edtTxtHeight = findViewById(R.id.editTxt4);
         EditText edtTxtStepWeight = findViewById(R.id.editTxt5);
 
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
 
     }
     //when the user clicks on the "continue" button it goes to the main activity
-    public void openMainPage(View view){
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
-    }
+   //public void openMainPage(View view){
+   //    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+   //    startActivity(i);
+   //}
 }

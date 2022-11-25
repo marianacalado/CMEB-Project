@@ -21,11 +21,15 @@ public class GoalsActivity extends AppCompatActivity {
         int BackgroundColor = ContextCompat.getColor(this, R.color.Background);
         int txtColor = ContextCompat.getColor(this, R.color.Text);
 
+        Button bt = findViewById(R.id.btn); //represent object como uma interface view (element in the layout), capture our button fr
+        bt.setOnClickListener(this::onBtnSave); //defining a listener: register the onClick listener with the implementation
+        //the parameters can be a function that will be called when the user clicks on the button
+
 
     }
 
     //when the user clicks go back saves the goals
-    public void goToMainPage (View view) {
+    public void onBtnSave (View view) {
         TextView txtSteps = findViewById(R.id.textView1);
         TextView txtEE = findViewById(R.id.textView2);
 
