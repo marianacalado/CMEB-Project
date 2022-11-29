@@ -62,19 +62,33 @@ public class Bluetooth extends AppCompatActivity {
                                     Set<BluetoothDevice> btDevices = bluetoothAdapter.getBondedDevices();
                                     ArrayList<String> deviceNames = new ArrayList<>();
                                     ArrayList<String> deviceIds = new ArrayList<>();
+                                    String nomesTodos = "Devices:";
 
                                     for(BluetoothDevice device : btDevices){
                                         deviceNames.add(device.getName());
                                         deviceIds.add(device.getAddress());
+                                        nomesTodos += " " + device.getName();
                                     }
-                                    TextView test = (TextView) findViewById(R.id.testeBluetooth);
+                                    TextView deviceNamesText = (TextView) findViewById(R.id.testeDeviceNames);
+                                    TextView specificDeviceId = (TextView) findViewById(R.id.specificDeviceId);
 
-                                    String vitalJacketAddress = deviceIds.get(deviceNames.indexOf(VITALJACKETNAME));
-                                    if(!deviceIds.equals("MAC Addresses:")) {
-                                        test.setText(vitalJacketAddress);
-                                    }else{
-                                        test.setText("No addresses found...");
+                                    //Trocar variável global VITALJACKETNAME
+                                    String vitalJacketAddress = "";
+                                    try {
+                                         vitalJacketAddress = deviceIds.get(deviceNames.indexOf(VITALJACKETNAME));
+
+                                    }catch (Exception e){
+                                        vitalJacketAddress = "A device with that name was not found...";
                                     }
+
+                                    if(!deviceIds.equals("MAC Addresses:")) {
+                                        deviceNamesText.setText(nomesTodos);
+                                    }else{
+                                        deviceNamesText.setText("No addresses found...");
+                                    }
+
+                                        specificDeviceId.setText("Specific address: " + vitalJacketAddress);
+
 
                                 }else{
                                     Toast.makeText(Bluetooth.this, "ACTIVITY NOT OK",Toast.LENGTH_LONG).show();
