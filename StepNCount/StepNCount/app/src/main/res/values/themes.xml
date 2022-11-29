@@ -16,8 +16,7 @@
 
     <!-- Dark mode -->
     <style name="Screen">
-        <item
-            name="android:background">@color/Background</item>
+        <item name="android:background">@color/Background</item>
     </style>
 
     <!-- Text in dark mode -->
@@ -29,4 +28,13 @@
     <style name="Btn">
         <item name="android:textColor">@color/Btn</item>
     </style>
+
+    <style name="Theme.StepNCount.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.StepNCount.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.StepNCount.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

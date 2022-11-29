@@ -14,10 +14,17 @@
     <string name="bt_not_enabled_leaving">Bluetooth was not enabled.</string>
     <string name="title_connected_to">connected to</string>
     <string name="title_not_connected">not connected</string>
-<<<<<<< HEAD
     <string name="tv_dist">Distance (km)</string>
     <string name="tv_time">Time (h)</string>
-=======
     <string name="menu_settings">Title</string>
->>>>>>> f924d7e6d6be3f59d1519fd1b1698822894abff5
+    <string name="tv_step_height">Step Height (cm)</string>
+    <string name="title_activity_bluetooth_test">BluetoothTest</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

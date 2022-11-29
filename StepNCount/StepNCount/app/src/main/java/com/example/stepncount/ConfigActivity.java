@@ -27,13 +27,13 @@ public class ConfigActivity extends AppCompatActivity {
         TextView txtBirth = findViewById(R.id.textView2);
         TextView txtWeight = findViewById(R.id.textView3);
         TextView txtHeight = findViewById(R.id.textView4);
-        TextView txtStepWeight = findViewById(R.id.textView5);
+        TextView txtStepHeight = findViewById(R.id.textView5);
 
         EditText edtTxtSex= findViewById(R.id.editTxt1);
         EditText edtTxtBirth = findViewById(R.id.editTxt2);
         EditText edtTxtWeight = findViewById(R.id.editTxt3);
         EditText edtTxtHeight = findViewById(R.id.editTxt4);
-        EditText edtTxtStepWeight = findViewById(R.id.editTxt5);
+        EditText edtTxtStepHeight = findViewById(R.id.editTxt5);
 
         //guardar info
 
