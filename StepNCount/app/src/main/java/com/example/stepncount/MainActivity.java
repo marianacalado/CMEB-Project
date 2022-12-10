@@ -8,12 +8,8 @@ import static com.example.stepncount.GoalsActivity.GOALS_PREFS;
 import static com.example.stepncount.GoalsActivity.STEPS_GOAL;
 import static com.example.stepncount.GoalsActivity.TIME_GOAL;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,7 +32,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
-import com.google.android.material.tabs.TabLayout;
+
 
 import java.util.ArrayList;
 
@@ -69,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
             Intent configAct = new Intent(getApplicationContext(), ConfigActivity.class);
             startActivity(configAct);
-
 
         }
 
@@ -170,115 +165,8 @@ public class MainActivity extends AppCompatActivity {
 
         LineChart chart = (LineChart) findViewById(R.id.graph);
 
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(false);
-
-        // Disable legend below the graph
-
-        Legend legend = chart.getLegend();
-        legend.setEnabled(false);
-
-        // Add points to graph
-
-        LineDataSet weekSteps = new LineDataSet(steps, "");
-        //To make the smooth line
-        weekSteps.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        //To enable the cubic density : if 1 then it will be sharp curve
-        weekSteps.setCubicIntensity(0.2f);
-
-        // Text point values
-
-        weekSteps.setValueTextSize(16);
-        weekSteps.setValueTextColor(DataPointsColor);
-
-        // Line
-
-        weekSteps.enableDashedLine(10,10,0);
-        weekSteps.setLineWidth(6);
-
-        weekSteps.setColor(ProgBarColor);
-
-        // Inner circle of the points
-
-        weekSteps.setDrawCircles(true);
-        weekSteps.setCircleRadius(8f);
-        weekSteps.setCircleColor(DataPointsColor);
-
-        // Outer circle of the points
-
-        weekSteps.setDrawCircleHole(true);
-        weekSteps.setCircleHoleRadius(5f);
-        weekSteps.setCircleHoleColor(Color.BLACK);
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(weekSteps);
-
-        LineData data = new LineData(dataSets);
-        chart.setData(data);
-        chart.setExtraTopOffset(2);
-
-        // Axis formatting
-
-            // X Axis
-
-        XAxis xAx = chart.getXAxis();
-        xAx.setTextSize(20);
-        xAx.setTextColor(DataPointsColor);
-        xAx.setAvoidFirstLastClipping(true);
-        xAx.setGridColor(GridColor);
-        xAx.setGridLineWidth(1);
-        xAx.setDrawGridLinesBehindData(true);
-        xAx.setDrawLimitLinesBehindData(true);
-
-            // Left Y Axis
-
-        float threshAbove = (float) data.getYMax() + Math.round(0.18*data.getYMax()); // Y axis upper threshold is always 18% higher than the max value
-        float threshBelow = (float) data.getYMin() - Math.round(0.10*data.getYMax()); // Y axis lower threshold is always 10% smaller than the max value
-
-        LimitLine upperLim = new LimitLine(threshAbove);
-        upperLim.setLineWidth(3);
-        upperLim.setLineColor(DataPointsColor);
-        upperLim.enableDashedLine(10f,10f,0f);
-        upperLim.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-
-        YAxis LeftyAx = chart.getAxisLeft();
-        LeftyAx.setDrawAxisLine(false);
-        LeftyAx.setDrawLabels(false);
-        LeftyAx.setGridColor(BackgroundColor);
-        LeftyAx.setAxisMaximum(threshAbove);
-        LeftyAx.setAxisMinimum(threshBelow);
-        LeftyAx.addLimitLine(upperLim);
-
-            // Right Y Axis
-
-        YAxis RightyAx = chart.getAxisRight();
-        RightyAx.setDrawAxisLine(false);
-        RightyAx.setDrawLabels(false);
-        RightyAx.setGridColor(BackgroundColor);
-
-        // Area under the graph
-
-        weekSteps.setDrawFilled(true);
-
-            // Fade of fill
-
-        if(Utils.getSDKInt() >= 18){
-            System.out.println("SDK version: " + Utils.getSDKInt());
-
-            // Fill  drawable only supported since level 18 API
-            // Gradient color file: fade_red.xml
-
-            Drawable fadeFill = ContextCompat.getDrawable(this, R.drawable.fade_red);
-            try {
-                fadeFill.setAlpha(80);
-                weekSteps.setFillDrawable(fadeFill);
-
-            }catch(NumberFormatException ex){
-                System.out.println("Exception: " + ex.getMessage()); // To print exception error message
-            }
-        }else{
-            weekSteps.setFillColor(DataPointsColor);
-        }
+        GraphDisplay graph = new GraphDisplay(this);
+        LineDataSet weekSteps = graph.chartSetUp(chart,steps);
 
         // Click listener for the value selected on the graph
 
@@ -315,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
-
         /* ------------------------------- Goal Button ------------------------------- */
 
         Button goalsButton = (Button) findViewById(R.id.goalsBtn);
@@ -340,7 +226,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* ------------------------------- Expand Button ------------------------------- */
+
+        Button expandBtn = (Button) findViewById(R.id.expandBtn);
+        expandBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent graphPage = new Intent(getApplicationContext(), GraphPage.class);
+                startActivity(graphPage);
+
+            }
+        });
+
     }
+
+
+
 
     public void updateBarProgress(float dayStep, float dayCal, float dayDist, float dayTime){
 

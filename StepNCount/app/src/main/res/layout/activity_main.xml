@@ -10,13 +10,12 @@
 
     <ProgressBar
         android:id="@+id/progBarSteps"
-        android:layout_width="321dp"
-        android:layout_height="288dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/progressbar"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         tools:progress="70" />
@@ -26,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="463dp" />
+        app:layout_constraintGuide_begin="411dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -138,41 +137,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="26dp"
         android:drawableBottom="@drawable/goalsicon2"
         android:text="Goals"
         android:textColor="@color/Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/stepsTxt"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progBarTime" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <Button
         android:id="@+id/configBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="26dp"
         android:drawableBottom="@drawable/userinfo2"
         android:text="User Info"
         android:textColor="@color/Text"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:theme="@style/BtnResults"
-        app:layout_constraintBottom_toTopOf="@+id/stepsTxt"
+        app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progBarDist" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/expandBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableBottom="@drawable/graphicon"
+        android:text="Expand Graph"
+        android:textColor="@color/Text"
+        android:textSize="12sp"
+        android:theme="@style/BtnResults"
+        app:layout_constraintBottom_toTopOf="@+id/guideline12"
+        app:layout_constraintEnd_toStartOf="@+id/goalsBtn"
+        app:layout_constraintStart_toEndOf="@+id/configBtn"
+        app:layout_constraintTop_toBottomOf="@+id/guideline2" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="503dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
