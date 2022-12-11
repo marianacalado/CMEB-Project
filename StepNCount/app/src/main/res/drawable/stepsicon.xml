@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@drawable/footstepsicon"
-        android:width="65dp"
-        android:height="65dp"
+        android:width="75dp"
+        android:height="75dp"
         >
     </item>
 

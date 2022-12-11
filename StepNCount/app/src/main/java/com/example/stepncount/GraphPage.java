@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -33,6 +34,15 @@ public class GraphPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_page);
+
+        // Importing color scheme from Resource Files: res/values/colors.xml
+
+        int StepsDataPointsColor = ContextCompat.getColor(this, R.color.DataPointVal);
+        int ProgBarColor         = ContextCompat.getColor(this,R.color.MainColor);
+        int DistDataPointsColor = ContextCompat.getColor(this, R.color.DistDataPoint);
+        int DistLineColor       = ContextCompat.getColor(this,R.color.DistLine);
+        int TimeDataPointsColor = ContextCompat.getColor(this, R.color.TimeDataPoint);
+        int TimeLineColor       = ContextCompat.getColor(this,R.color.TimeLine);
 
         /* ------------------------------- Guidelines ------------------------------- */
 
@@ -92,16 +102,17 @@ public class GraphPage extends AppCompatActivity {
         LineChart timeG = (LineChart) findViewById(R.id.timeGraph);
 
         GraphDisplay graphCal = new GraphDisplay(this);
-        LineDataSet weekCalories = graphCal.chartSetUp(calG,calories);
+        LineDataSet weekCalories = graphCal.chartSetUp(calG,calories, StepsDataPointsColor, ProgBarColor);
+        graphCal.graphFade(weekCalories,R.drawable.fade_red, StepsDataPointsColor);
 
         GraphDisplay graphDist = new GraphDisplay(this);
-        LineDataSet weekDistance = graphDist.chartSetUp(distG,distance);
+        LineDataSet weekDistance = graphDist.chartSetUp(distG,distance, DistDataPointsColor, DistLineColor);
+        graphDist.graphFade(weekDistance,R.drawable.fade_blue, DistDataPointsColor);
 
         GraphDisplay graphTm = new GraphDisplay(this);
-        LineDataSet weekTime = graphTm.chartSetUp(timeG,time);
+        LineDataSet weekTime = graphTm.chartSetUp(timeG,time,TimeDataPointsColor, TimeLineColor);
+        graphTm.graphFade(weekTime,R.drawable.fade_green, TimeDataPointsColor);
 
     }
-
-
 
 }

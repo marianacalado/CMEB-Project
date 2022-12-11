@@ -3,7 +3,7 @@
 
     <item
         android:drawable="@drawable/graph_icon2"
-        android:width="50dp"
+        android:width="55dp"
         android:height="30dp"
         >
     </item>
