@@ -6,8 +6,8 @@
             <gradient
                 android:shape="rectangle"
                 android:type="linear"
-                android:startColor="@color/MainColor"
-                android:centerColor="@color/DataPointVal"
+                android:startColor="@color/DistLine"
+                android:centerColor="@color/DistDataPoint"
                 android:endColor="#4C4C4C"
                 android:centerY="0.75"
                 android:angle="270"

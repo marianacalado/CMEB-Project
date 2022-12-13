@@ -54,10 +54,10 @@ public class ConfigActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int w = displayMetrics.widthPixels;
 
-        Guideline horizontalG1 = findViewById(R.id.guideline5);
-        Guideline horizontalG2 = findViewById(R.id.guideline6);
-        horizontalG1.setGuidelineBegin(w/3); // Puts first guideline at 1/3 of the current running phone width
-        horizontalG2.setGuidelineBegin(Math.round(w*2/3)); // Puts second guideline at 2/3 of the current running phone width
+        Guideline verticalG1 = findViewById(R.id.guideline5);
+        Guideline verticalG2 = findViewById(R.id.guideline6);
+        verticalG1.setGuidelineBegin(w/3); // Puts first guideline at 1/3 of the current running phone width
+        verticalG2.setGuidelineBegin(Math.round(w*2/3)); // Puts second guideline at 2/3 of the current running phone width
 
         /* ------------------------------- Number Pickers ------------------------------- */
 

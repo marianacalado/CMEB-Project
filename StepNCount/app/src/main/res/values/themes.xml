@@ -26,12 +26,6 @@
         <item name="android:textColor">@color/Text</item>
     </style>
 
-    <!-- Buttons on results page -->
-
-    <style name="BtnResults" parent="ThemeOverlay.AppCompat">
-        <item name="android:colorAccent">@color/Pickr</item>
-    </style>
-
     <!-- Text Size on results page -->
 
     <style name="TxtSize" parent="ThemeOverlay.AppCompat">

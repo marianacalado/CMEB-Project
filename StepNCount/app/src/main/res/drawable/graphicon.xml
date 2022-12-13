@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:drawable="@drawable/footstepsicon"
-        android:width="75dp"
-        android:height="75dp"
+        android:drawable="@drawable/graph_icon2"
+        android:width="55dp"
+        android:height="30dp"
         >
     </item>
 
