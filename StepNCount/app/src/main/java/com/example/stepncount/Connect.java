@@ -1,57 +1,35 @@
 package com.example.stepncount;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.SyncStatusObserver;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import Bio.Library.namespace.BioLib;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
-import org.w3c.dom.Text;
-
 
 public class Connect extends Activity {
     private BioLib lib = null;
 
-    private String address = "00:23:FE:00:0B:4A";
+    private String address = "00:23:FE:00:0B:54";
     private String mConnectedDeviceName = "";
     private BluetoothDevice deviceToConnect;
     private ArrayList<Double> dadosDefault = new ArrayList<>();
@@ -81,6 +59,7 @@ public class Connect extends Activity {
     private Button buttonSetLabel;
     private Button buttonGetDeviceId;
     private Button buttonGetAcc;
+    private Button buttonDisplay;
 
     private BioLib.DataACC dataACC = null;
     private int BATTERY_LEVEL = 0;
@@ -126,7 +105,8 @@ public class Connect extends Activity {
                     }
                     Toast.makeText(getApplicationContext(), "Connected to " + deviceToConnect.getName(), Toast.LENGTH_SHORT).show();
                     isConn = true;
-                    /*Intent menus = new Intent(quarto.this, terceiro.class);
+                    /* por aqui a comunicação vai para config
+                    Intent menus = new Intent(quarto.this, terceiro.class);
                     menus.putExtra("lib", (Parcelable) lib);
                     startActivity(menus);
                     setContentView(R.layout.menu);
@@ -172,7 +152,8 @@ public class Connect extends Activity {
                     dataACC = (BioLib.DataACC) msg.obj;
                     //System.out.println("Nova leitura");
                     try {
-                        handleACC(dadosDefault);
+                        stepCounter();
+                        //handleACC(dadosDefault);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -202,6 +183,7 @@ public class Connect extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
+        //aqui vai correr o handler
         try{
             lib = new BioLib(this,mHandler);
         }catch (Exception e) {
@@ -257,7 +239,9 @@ public class Connect extends Activity {
                 }
             }
         });
+
     }
+
     private void Reset() {
         try {
 
@@ -269,44 +253,183 @@ public class Connect extends Activity {
             ex.printStackTrace();
         }
     }
-    public ArrayList<Double> handleACC(ArrayList<Double> dadosAnteriores) throws Exception {
-        String dataX = "X coord: "+dataACC.X;
-        String dataY = "Y coord: "+dataACC.Y;
-        String dataZ = "Z coord: "+dataACC.Z;
 
-        TextView teste = (TextView) findViewById(R.id.testeData);
-        teste.setText(dataX+"\n"+dataY+"\n"+dataZ);
-        TextView teste2 = findViewById(R.id.broNaoSei);
+
+    public void stepCounter()
+    {
+
+        String X_acc = "X coord: "+dataACC.X;
+        String Y_acc = "Y coord: "+dataACC.Y;
+        String Z_acc = "Z coord: "+dataACC.Z;
+
+        //conversion to double value
+        Double x = Double.valueOf(dataACC.X);
+        Double y = Double.valueOf(dataACC.Y);
+        Double z = Double.valueOf(dataACC.Z);
+
+        //display of data that VJ aquired
+        TextView  test = findViewById(R.id.datatest);
+        test.setText(X_acc+"\n"+Y_acc+"\n"+Z_acc);
+
+        //if the conection worked
+        TextView teste2 = findViewById(R.id.conection_);
         teste2.setText("Done");
 
-        ArrayList<Double> testeArray = new ArrayList<>();
-        testeArray.add(Double.valueOf(dataX));
-        testeArray.add(Double.valueOf(dataY));
-        testeArray.add(Double.valueOf(dataZ));
+        //Count of steps
+        double MagnitudePrevious = 0;
+        Integer stepCount = 0;
 
+        //test a ver se faz bem a contagem
+        TextView stepsC = findViewById(R.id.stepshow);
+
+        double Magnitude = Math.sqrt(x*x + y*y + z*z);
+        double MagnitudeDelta = Magnitude - MagnitudePrevious;
+        MagnitudePrevious = Magnitude;
+
+        if (MagnitudeDelta > 3){
+            stepCount++;
+        }
+        stepsC.setText(stepCount.toString());
+
+        //if the user clicks on the button display it show the magnitude calculation
+        buttonDisplay  = findViewById(R.id.buttonDisplayData);
+        Integer finalStepCount = stepCount;
+        buttonDisplay.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+              displayDados();
+            }
+            private void displayDados(){
+                //TextView mag = findViewById(R.id.data);
+                stepsC.setText(finalStepCount.toString());
+            }
+        });
+
+
+        //EE calculation
         //double kcalMin = 0.001064 + Math.sqrt(Math.pow(dataXConta,2)+Math.pow(dataYConta,2)+Math.pow(dataZConta,2))
         //+ 0.087512 * 75 - 5.500229;
+    }
 
-        double magnitudeDelta = Math.sqrt(Math.pow(dadosAnteriores.get(0),2)+Math.pow(dadosAnteriores.get(1), 2)+Math.pow(dadosAnteriores.get(2),2)) -
-                Math.sqrt(Math.pow(testeArray.get(0),2)+Math.pow(testeArray.get(1),2)+Math.pow(testeArray.get(2),2));
+    public ArrayList<Double> handleACC(ArrayList<Double> dadosAnteriores) throws Exception
+    {
 
-        TextView stepsC = findViewById(R.id.stepsCount);
+        String X_acc = "X coord: "+dataACC.X;
+        String Y_acc = "Y coord: "+dataACC.Y;
+        String Z_acc = "Z coord: "+dataACC.Z;
 
-        stepsC.setText((int) magnitudeDelta);
+        //array de valores anteriores
+        ArrayList<Double> testeArray = new ArrayList<>();
+        testeArray.add(Double.valueOf(X_acc));
+        testeArray.add(Double.valueOf(Y_acc));
+        testeArray.add(Double.valueOf(Z_acc));
 
-        buttonDisconnect = (Button) findViewById(R.id.buttonDisplayData);
-        buttonDisconnect.setOnClickListener(new View.OnClickListener(){
+        //display of data that VJ aquired
+        TextView  test = findViewById(R.id.datatest);
+        test.setText(X_acc+"\n"+Y_acc+"\n"+Z_acc);
+
+        //if the conection worked
+        TextView teste2 = findViewById(R.id.conection_);
+        teste2.setText("Done");
+
+        //Count of steps
+        Integer stepCount = 0;
+
+        //test a ver se faz bem a contagem
+        TextView stepsC = findViewById(R.id.stepshow);
+
+        double MagnitudePrevious = Math.sqrt(Math.pow(dadosAnteriores.get(0),2)+Math.pow(dadosAnteriores.get(1), 2)+Math.pow(dadosAnteriores.get(2),2));
+        double Magnitude = Math.sqrt(Math.pow(testeArray.get(0),2)+Math.pow(testeArray.get(1),2)+Math.pow(testeArray.get(2),2));
+        double MagnitudeDelta =  Magnitude - MagnitudePrevious;
+        MagnitudePrevious = Magnitude;
+
+        if (MagnitudeDelta > 3){
+            stepCount++;
+        }
+        stepsC.setText(stepCount.toString());
+
+        //if the user clicks on the button display it show the magnitude calculation
+        buttonDisplay  = findViewById(R.id.buttonDisplayData);
+        //Integer finalStepCount = stepCount;
+        Integer finalStepCount = stepCount;
+        buttonDisplay.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 displayDados();
             }
             private void displayDados(){
-                TextView displayDados = (TextView) findViewById(R.id.displayDados);
-                displayDados.setText(testeArray.toString());
+               //TextView mag = findViewById(R.id.data);
+                stepsC.setText(finalStepCount.toString());
             }
         });
+
         return testeArray;
+
+
+        //EE calculation
+        //double kcalMin = 0.001064 + Math.sqrt(Math.pow(dataXConta,2)+Math.pow(dataYConta,2)+Math.pow(dataZConta,2))
+        //+ 0.087512 * 75 - 5.500229;
     }
 
+//    public ArrayList<Double> handleACC(ArrayList<Double> dadosAnteriores) throws Exception {
+//        String X_acc = "X coord: "+dataACC.X;
+//        String Y_acc = "Y coord: "+dataACC.Y;
+//        String Z_acc = "Z coord: "+dataACC.Z;
+//
+//        //display of data that VJ aquired
+//        TextView  test= findViewById(R.id.datatest);
+//        test.setText(X_acc+"\n"+Y_acc+"\n"+Z_acc);
+//
+//        //if the conection worked
+//        TextView teste2 = findViewById(R.id.conection_);
+//        teste2.setText("Done");
+//
+//        //array de valores anteriores
+//        ArrayList<Double> testeArray = new ArrayList<>();
+//        testeArray.add(Double.valueOf(X_acc));
+//        testeArray.add(Double.valueOf(Y_acc));
+//        testeArray.add(Double.valueOf(Z_acc));
+//
+//        //EE calculation
+//        //double kcalMin = 0.001064 + Math.sqrt(Math.pow(dataXConta,2)+Math.pow(dataYConta,2)+Math.pow(dataZConta,2))
+//        //+ 0.087512 * 75 - 5.500229;
+//
+//        //Count of steps
+//        double MagnitudePrevious = 0;
+//        Integer stepCount = 0;
+//
+//        //test a ver se faz bem a contagem
+//        TextView stepsC = findViewById(R.id.stepshow);
+//
+//
+//        double Magnitude = Math.sqrt(X_acc*X_acc + Y_acc*Y_acc + Z_acc*Z_acc);
+//        double MagnitudeDelta = Magnitude – MagnitudePrevious;
+//        MagnitudePrevious = Magnitude;
+//
+//        if (MagnitudeDelta > 6){
+//            stepCount++;
+//        }
+//        stepsC.setText(stepCount.toString());
+//        }
+//
+//
+//        //double magnitudeDelta = Math.sqrt(Math.pow(dadosAnteriores.get(0),2)+Math.pow(dadosAnteriores.get(1), 2)+Math.pow(dadosAnteriores.get(2),2)) -
+//        //        Math.sqrt(Math.pow(testeArray.get(0),2)+Math.pow(testeArray.get(1),2)+Math.pow(testeArray.get(2),2));
+//
+//
+//        //stepsC.setText((int) magnitudeDelta);
+//
+//        buttonDisplay  = findViewById(R.id.buttonDisplayData);
+//        buttonDisplay.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View view){
+//                displayDados();
+//            }
+//            private void displayDados(){
+//                TextView displayDados = findViewById(R.id.data);
+//                displayDados.setText(testeArray.toString());
+//            }
+//        });
+//        return testeArray;
+//    }
+//
     private void fillDefaultArray(){
         dadosDefault.add(0.0);
         dadosDefault.add(0.0);

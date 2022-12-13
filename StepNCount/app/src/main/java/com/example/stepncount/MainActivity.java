@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Intent Con = new Intent(getApplicationContext(), Connect.class);
-        //startActivity(Con);
+        Intent Con = new Intent(getApplicationContext(), Connect.class);
+        startActivity(Con);
 
         /* ------------------------------- Shared preferences ------------------------------- */
 
