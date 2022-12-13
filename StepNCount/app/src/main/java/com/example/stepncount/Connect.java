@@ -275,6 +275,7 @@ public class Connect extends Activity {
         TextView teste2 = findViewById(R.id.conection_);
         teste2.setText("Done");
 
+
         //Count of steps
         double MagnitudePrevious = 0;
         Integer stepCount = 0;
