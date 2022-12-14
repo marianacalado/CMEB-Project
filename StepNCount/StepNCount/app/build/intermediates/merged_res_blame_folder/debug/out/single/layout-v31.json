@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.example.stepncount.app-mergeDebugResources-36:/layout-v31/simplerow.xml",
+        "source": "com.example.stepncount.app-main-39:/layout-v31/simplerow.xml"
+    },
+    {
+        "merged": "com.example.stepncount.app-mergeDebugResources-36:/layout-v31/main.xml",
+        "source": "com.example.stepncount.app-main-39:/layout-v31/main.xml"
+    },
+    {
+        "merged": "com.example.stepncount.app-mergeDebugResources-36:/layout-v31/activity_goals.xml",
+        "source": "com.example.stepncount.app-main-39:/layout-v31/activity_goals.xml"
+    }
+]

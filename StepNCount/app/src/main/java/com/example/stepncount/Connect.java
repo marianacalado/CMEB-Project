@@ -1,10 +1,16 @@
 package com.example.stepncount;
 
 
+import static com.example.stepncount.ConfigActivity.CONFIG_PREFS;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +19,13 @@ import android.bluetooth.BluetoothDevice;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import Bio.Library.namespace.BioLib;
 
@@ -27,15 +39,21 @@ import androidx.core.app.ActivityCompat;
 
 
 public class Connect extends Activity {
+    public static final String CONNECT_PREFS = "connectPrefs";
+    private int notMovingCounter = 0;
+    private int walkingCounter = 0;
+    private int runningCounter = 0;
     private BioLib lib = null;
-
+    private int testBoasOla = 0;
     private String address = "00:23:FE:00:0B:54";
     private String mConnectedDeviceName = "";
     private BluetoothDevice deviceToConnect;
-    private ArrayList<Double> dadosDefault = new ArrayList<>();
+    private Double[] dadosAnteriores = {0.0,0.0,0.0};
+    private double agregadoMagnitudes = 0.0;
+    private Double kcalTotais;
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
-
+    private Integer stepCount = 0;
     private TextView text;
     private TextView textRTC;
     private TextView textPUSH;
@@ -75,8 +93,8 @@ public class Connect extends Activity {
     private byte typeRadioEvent = 0;
     private byte[] infoRadioEvent = null;
     private short countEvent = 0;
-
     private boolean isConn = false;
+
 
     private byte[][] ecg = null;
     private int nBytes = 0;
@@ -105,6 +123,7 @@ public class Connect extends Activity {
                     }
                     Toast.makeText(getApplicationContext(), "Connected to " + deviceToConnect.getName(), Toast.LENGTH_SHORT).show();
                     isConn = true;
+
                     /* por aqui a comunicação vai para config
                     Intent menus = new Intent(quarto.this, terceiro.class);
                     menus.putExtra("lib", (Parcelable) lib);
@@ -182,7 +201,6 @@ public class Connect extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
-
         //aqui vai correr o handler
         try{
             lib = new BioLib(this,mHandler);
@@ -208,8 +226,23 @@ public class Connect extends Activity {
                     deviceToConnect =  lib.mBluetoothAdapter.getRemoteDevice(address);
                     Toast.makeText(Connect.this, "Keep going12!", Toast.LENGTH_SHORT).show();
                     Reset();
-                    fillDefaultArray();
                     lib.Connect(address, 5);
+                    SharedPreferences connectPref = getSharedPreferences(CONNECT_PREFS, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = connectPref.edit();
+                    boolean isConnect = connectPref.getBoolean("isConn",false);
+                    //Intent intent = new Intent(this, DataIntentService.class);
+                    //startService(intent);
+                    //Mudar activity dps de connect
+                    /*
+                    if (firstStart) { // Checks if it is the first time the user opens the app
+                        Intent configAct = new Intent(getApplicationContext(), ConfigActivity.class);
+                        startActivity(configAct);
+
+                    } else {
+                        Intent resultAct = new Intent(getApplicationContext(), ResultsActivity.class);
+                        startActivity(resultAct);
+                    }
+                     */
                 } catch (Exception e)
                 {
                     text.setText("Error to connect device: " + address);
@@ -258,6 +291,7 @@ public class Connect extends Activity {
     public void stepCounter()
     {
 
+
         String X_acc = "X coord: "+dataACC.X;
         String Y_acc = "Y coord: "+dataACC.Y;
         String Z_acc = "Z coord: "+dataACC.Z;
@@ -277,20 +311,44 @@ public class Connect extends Activity {
 
 
         //Count of steps
-        double MagnitudePrevious = 0;
-        Integer stepCount = 0;
+
+
 
         //test a ver se faz bem a contagem
         TextView stepsC = findViewById(R.id.stepshow);
-
+        double MagnitudePrevious = Math.sqrt(dadosAnteriores[0]*dadosAnteriores[0] + dadosAnteriores[1]*dadosAnteriores[1] + dadosAnteriores[2]*dadosAnteriores[2]);
         double Magnitude = Math.sqrt(x*x + y*y + z*z);
         double MagnitudeDelta = Magnitude - MagnitudePrevious;
-        MagnitudePrevious = Magnitude;
+        agregadoMagnitudes+= Math.abs(MagnitudeDelta);
+        encherDados(x,y,z);
 
-        if (MagnitudeDelta > 3){
+        Date currentTime = Calendar.getInstance().getTime();
+        TextView boas = findViewById(R.id.teste);
+        boas.setText(currentTime.toString());
+        TextView status = findViewById(R.id.status);
+        if (MagnitudeDelta >= 16.5 && MagnitudeDelta < 30){
             stepCount++;
+            walkingCounter++;
+            if(walkingCounter == 3){
+                status.setText("Walking");
+                walkingCounter = 0;
+            }
+        }else if(MagnitudeDelta < 5){
+            notMovingCounter++;
+            if(notMovingCounter == 3){
+                status.setText("Not moving");
+                notMovingCounter = 0;
+            }
+        }else if(MagnitudeDelta > 30){
+            stepCount++;
+            runningCounter++;
+            if(runningCounter == 3){
+                runningCounter = 0;
+                status.setText("Running");
+            }
+
         }
-        stepsC.setText(stepCount.toString());
+        stepsC.setText(Integer.toString(stepCount));
 
         //if the user clicks on the button display it show the magnitude calculation
         buttonDisplay  = findViewById(R.id.buttonDisplayData);
@@ -307,11 +365,26 @@ public class Connect extends Activity {
 
 
         //EE calculation
-        //double kcalMin = 0.001064 + Math.sqrt(Math.pow(dataXConta,2)+Math.pow(dataYConta,2)+Math.pow(dataZConta,2))
-        //+ 0.087512 * 75 - 5.500229;
+        calculateKcal();
     }
 
-    public ArrayList<Double> handleACC(ArrayList<Double> dadosAnteriores) throws Exception
+    private void calculateKcal() {
+            kcalTotais = (0.001064 + agregadoMagnitudes
+                    + 0.087512 * 75 - 5.500229)/2500;
+
+            TextView kcal = findViewById(R.id.Kcal);
+            kcal.setText(String.valueOf(kcalTotais));
+        }
+
+
+
+    private void encherDados(Double x, Double y, Double z){
+        dadosAnteriores[0] = x;
+        dadosAnteriores[1] = y;
+        dadosAnteriores[2] = z;
+    }
+/*
+    public Double[] handleACC(Double[] dadosAnteriores) throws Exception
     {
 
         String X_acc = "X coord: "+dataACC.X;
@@ -333,7 +406,7 @@ public class Connect extends Activity {
         teste2.setText("Done");
 
         //Count of steps
-        Integer stepCount = 0;
+
 
         //test a ver se faz bem a contagem
         TextView stepsC = findViewById(R.id.stepshow);
@@ -431,9 +504,6 @@ public class Connect extends Activity {
 //        return testeArray;
 //    }
 //
-    private void fillDefaultArray(){
-        dadosDefault.add(0.0);
-        dadosDefault.add(0.0);
-        dadosDefault.add(0.0);
-    }
+ */
 }
+
