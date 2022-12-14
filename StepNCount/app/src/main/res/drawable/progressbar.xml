@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Layer list allows to stack multiple drawables on top of each other -->
+
+    <item> <!-- Background -->
+        <shape
+            android:shape="ring"
+            android:thicknessRatio="30"
+            android:useLevel="false">
+            <solid android:color="#909090" />
+        </shape>
+    </item>
+
+    <item> <!-- Foreground (Progress bar) -->
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thicknessRatio="29"
+                android:useLevel="true">
+                    <solid android:color="@color/MainColor" />
+            </shape>
+        </rotate>
+    </item>
+
+</layer-list>
+
+

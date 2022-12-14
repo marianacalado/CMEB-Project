@@ -1,0 +1,164 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.stepncount"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+11-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:5:5-74
+11-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:5:22-71
+12    <uses-permission android:name="android.permission.BLUETOOTH" />
+12-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:6:5-68
+12-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:6:22-65
+13    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+13-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:7:5-76
+13-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:7:22-73
+14    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+14-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:8:5-10:47
+14-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:9:9-63
+15    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+15-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:11:5-79
+15-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:11:22-76
+16    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+16-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:12:5-81
+16-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:12:22-78
+17    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+17-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:13:5-73
+17-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:13:22-70
+18    <!--
+19 Needed only if your app makes the device discoverable to Bluetooth
+20      devices.
+21    -->
+22    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+22-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:18:5-78
+22-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:18:22-75
+23    <!--
+24 Needed only if your app communicates with already-paired Bluetooth
+25           devices.
+26    -->
+27    <!-- bibo01 : hardware option -->
+28    <uses-feature
+28-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:24:5-26:36
+29        android:name="android.hardware.bluetooth"
+29-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:25:9-50
+30        android:required="false" />
+30-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:26:9-33
+31    <uses-feature
+31-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:27:5-29:36
+32        android:name="android.hardware.bluetooth_le"
+32-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:28:9-53
+33        android:required="false" />
+33-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:29:9-33
+34
+35    <application
+35-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:31:5-63:19
+36        android:allowBackup="true"
+36-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:32:9-35
+37        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+37-->[androidx.core:core:1.8.0] C:\Users\jotag\.gradle\caches\transforms-3\87a796fe63836d99a2198ac6a6284cb3\transformed\core-1.8.0\AndroidManifest.xml:24:18-86
+38        android:dataExtractionRules="@xml/data_extraction_rules"
+38-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:33:9-65
+39        android:debuggable="true"
+40        android:extractNativeLibs="false"
+41        android:fullBackupContent="@xml/backup_rules"
+41-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:34:9-54
+42        android:icon="@mipmap/ic_launcher"
+42-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:35:9-43
+43        android:label="@string/app_name"
+43-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:36:9-41
+44        android:roundIcon="@mipmap/ic_launcher_round"
+44-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:37:9-54
+45        android:supportsRtl="true"
+45-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:38:9-35
+46        android:testOnly="true"
+47        android:theme="@style/Theme.StepNCount" >
+47-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:39:9-48
+48        <activity
+48-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:41:9-47:20
+49            android:name="com.example.stepncount.Bluetooth"
+49-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:42:13-38
+50            android:exported="true" >
+50-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:43:13-36
+51            <meta-data
+51-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:44:13-46:36
+52                android:name="android.app.lib_name"
+52-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:45:17-52
+53                android:value="" />
+53-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:46:17-33
+54        </activity>
+55        <activity
+55-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:48:9-49:48
+56            android:name="com.example.stepncount.Connect"
+56-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:48:19-42
+57            android:exported="true" />
+57-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:49:13-36
+58        <activity
+58-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:50:9-52:39
+59            android:name="com.example.stepncount.MainActivity"
+59-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:51:13-41
+60            android:exported="true" />
+60-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:52:13-36
+61        <activity
+61-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:53:9-61:20
+62            android:name="com.example.stepncount.ConfigActivity"
+62-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:54:13-43
+63            android:exported="true" >
+63-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:55:13-36
+64            <intent-filter>
+64-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:56:13-60:29
+65                <action android:name="android.intent.action.MAIN" />
+65-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:57:17-69
+65-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:57:25-66
+66
+67                <category android:name="android.intent.category.LAUNCHER" />
+67-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:59:17-77
+67-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:59:27-74
+68            </intent-filter>
+69        </activity>
+70        <activity android:name="com.example.stepncount.GoalsActivity" />
+70-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:62:9-51
+70-->C:\Users\jotag\Desktop\CMEB project\CMEB-Project\StepNCount\StepNCount\app\src\main\AndroidManifest.xml:62:19-48
+71
+72        <provider
+72-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+73            android:name="androidx.startup.InitializationProvider"
+73-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+74            android:authorities="com.example.stepncount.androidx-startup"
+74-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+75            android:exported="false" >
+75-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+76            <meta-data
+76-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+77                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+77-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+78                android:value="androidx.startup" />
+78-->[androidx.emoji2:emoji2:1.2.0] C:\Users\jotag\.gradle\caches\transforms-3\1f2ec24e04aa7670dbdd4e904437e8bf\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+79            <meta-data
+79-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\jotag\.gradle\caches\transforms-3\2843dd8f352d29054991aa53179df82d\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+80                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+80-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\jotag\.gradle\caches\transforms-3\2843dd8f352d29054991aa53179df82d\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+81                android:value="androidx.startup" />
+81-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\jotag\.gradle\caches\transforms-3\2843dd8f352d29054991aa53179df82d\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+82        </provider>
+83
+84        <uses-library
+84-->[androidx.window:window:1.0.0] C:\Users\jotag\.gradle\caches\transforms-3\e75272f0fd83aabd0d26e22c1f051d6d\transformed\jetified-window-1.0.0\AndroidManifest.xml:25:9-27:40
+85            android:name="androidx.window.extensions"
+85-->[androidx.window:window:1.0.0] C:\Users\jotag\.gradle\caches\transforms-3\e75272f0fd83aabd0d26e22c1f051d6d\transformed\jetified-window-1.0.0\AndroidManifest.xml:26:13-54
+86            android:required="false" />
+86-->[androidx.window:window:1.0.0] C:\Users\jotag\.gradle\caches\transforms-3\e75272f0fd83aabd0d26e22c1f051d6d\transformed\jetified-window-1.0.0\AndroidManifest.xml:27:13-37
+87        <uses-library
+87-->[androidx.window:window:1.0.0] C:\Users\jotag\.gradle\caches\transforms-3\e75272f0fd83aabd0d26e22c1f051d6d\transformed\jetified-window-1.0.0\AndroidManifest.xml:28:9-30:40
+88            android:name="androidx.window.sidecar"
+88-->[androidx.window:window:1.0.0] C:\Users\jotag\.gradle\caches\transforms-3\e75272f0fd83aabd0d26e22c1f051d6d\transformed\jetified-window-1.0.0\AndroidManifest.xml:29:13-51
+89            android:required="false" />
+89-->[androidx.window:window:1.0.0] C:\Users\jotag\.gradle\caches\transforms-3\e75272f0fd83aabd0d26e22c1f051d6d\transformed\jetified-window-1.0.0\AndroidManifest.xml:30:13-37
+90    </application>
+91
+92</manifest>

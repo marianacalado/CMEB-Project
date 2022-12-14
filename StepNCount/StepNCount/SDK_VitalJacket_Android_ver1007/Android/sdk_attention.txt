@@ -1,3 +1,0 @@
-Attention!
-This SDK package isn't suitable for patient monitoring!
-This software has been extensively tested however it's provided without any warranty.

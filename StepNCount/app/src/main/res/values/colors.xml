@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!-- Custom colors for the App -->
+
+    <color name="Background">#222020</color>      <!-- Background Color -->
+    <color name="Text">#F1CCCC</color>            <!-- Color of the text of the ProgressBar object -->
+    <color name="DataPointVal">#FFB354</color>    <!-- Color of the data Points and X Axis label of the Step LineChart -->
+    <color name="MainColor">#DF0021</color>       <!-- Main red color of the App. Also the line color of the step LineChart -->
+    <color name="DistDataPoint">#54F1FF</color>   <!-- Color of the data Points and X Axis label of the Calories LineChart -->
+    <color name="DistLine">#006CDF</color>        <!-- The line color of the calories LineChart -->
+    <color name="TimeDataPoint">#54FFA7</color>   <!-- Color of the data Points and X Axis label of the Calories LineChart -->
+    <color name="TimeLine">#00DF1E</color>        <!-- The line color of the calories LineChart -->
+    <color name="Grid">#332F2D</color>            <!-- Color of the Grid -->
+    <color name="Btn">#51C5F3</color>             <!-- Color of the Button -->
+    <color name="Pickr">#51C5F3</color>           <!-- Color of number picker divider and buttons on Results page -->
+
+
+    <color name="background_gradient_start">#000000</color>
+    <color name="background_gradient_end">#DDDDDD</color>
+    <color name="fastlane_background">#0096a6</color>
+    <color name="search_opaque">#ffaa3f</color>
+    <color name="selected_background">#ffaa3f</color>
+    <color name="default_background">#3d3d3d</color>
+</resources>

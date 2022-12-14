@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-mergeDebugResources-36:\\layout\\activity_config.xml",
+        "source": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-main-39:\\layout\\activity_config.xml"
+    },
+    {
+        "merged": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-mergeDebugResources-36:\\layout\\activity_connect.xml",
+        "source": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-main-39:\\layout\\activity_connect.xml"
+    },
+    {
+        "merged": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-mergeDebugResources-36:\\layout\\activity_goals.xml",
+        "source": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-main-39:\\layout\\activity_goals.xml"
+    },
+    {
+        "merged": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-mergeDebugResources-36:\\layout\\activity_bluetooth.xml",
+        "source": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-main-39:\\layout\\activity_bluetooth.xml"
+    },
+    {
+        "merged": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-mergeDebugResources-36:\\layout\\search.xml",
+        "source": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-main-39:\\layout\\search.xml"
+    },
+    {
+        "merged": "com.example.stepncount.app-mergeDebugResources-36:/layout/activity_connect.xml",
+        "source": "com.example.stepncount.app-main-39:/layout/activity_connect.xml"
+    },
+    {
+        "merged": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-mergeDebugResources-36:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\jotag\\.gradle\\daemon\\7.4\\com.example.stepncount.app-main-39:\\layout\\activity_main.xml"
+    }
+]
