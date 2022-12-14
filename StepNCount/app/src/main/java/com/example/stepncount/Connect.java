@@ -40,6 +40,9 @@ import androidx.core.app.ActivityCompat;
 
 public class Connect extends Activity {
     public static final String CONNECT_PREFS = "connectPrefs";
+    private int notMovingCounter = 0;
+    private int walkingCounter = 0;
+    private int runningCounter = 0;
     private BioLib lib = null;
     private int testBoasOla = 0;
     private String address = "00:23:FE:00:0B:54";
@@ -322,9 +325,28 @@ public class Connect extends Activity {
         Date currentTime = Calendar.getInstance().getTime();
         TextView boas = findViewById(R.id.teste);
         boas.setText(currentTime.toString());
-
-        if (MagnitudeDelta > 18.5){
+        TextView status = findViewById(R.id.status);
+        if (MagnitudeDelta >= 16.5 && MagnitudeDelta < 30){
             stepCount++;
+            walkingCounter++;
+            if(walkingCounter == 3){
+                status.setText("Walking");
+                walkingCounter = 0;
+            }
+        }else if(MagnitudeDelta < 5){
+            notMovingCounter++;
+            if(notMovingCounter == 3){
+                status.setText("Not moving");
+                notMovingCounter = 0;
+            }
+        }else if(MagnitudeDelta > 30){
+            stepCount++;
+            runningCounter++;
+            if(runningCounter == 3){
+                runningCounter = 0;
+                status.setText("Running");
+            }
+
         }
         stepsC.setText(Integer.toString(stepCount));
 
