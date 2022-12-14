@@ -6,54 +6,18 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/conection_"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="190dp"
-        android:layout_marginBottom="120dp"
-        android:text="conectou?"
-        android:textColor="@color/DataPointVal"
-        app:layout_constraintBottom_toTopOf="@+id/testeData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/displayDados"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/testeData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="352dp"
-        android:layout_marginEnd="192dp"
-        android:layout_marginBottom="360dp"
-        android:text="TextView"
-        android:textColor="@color/DataPointVal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <Button
         android:id="@+id/buttonConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="147dp"
-        android:layout_marginTop="108dp"
         android:layout_marginEnd="159dp"
         android:layout_marginBottom="204dp"
         android:text="Connect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testeData"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonDisconnect"
@@ -67,21 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonConnect" />
-
-    <TextView
-        android:id="@+id/displayDados"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="167dp"
-        android:layout_marginTop="134dp"
-        android:layout_marginEnd="186dp"
-        android:layout_marginBottom="199dp"
-        android:text="Display data!"
-        android:textColor="@color/DataPointVal"
-        app:layout_constraintBottom_toTopOf="@+id/testeData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonDisplayData"
@@ -103,26 +52,25 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/buttonConnect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testeData"></TextView>
+        app:layout_constraintStart_toStartOf="parent"></TextView>
 
     <TextView
-        android:id="@+id/data"
+        android:id="@+id/Kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
         android:text="data"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/testeData"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/datatest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="104dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="60dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/testeData"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,14 +86,31 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="63dp"
-        android:layout_height="83dp"
-        app:layout_constraintBottom_toBottomOf="@+id/displayDados"
-        app:layout_constraintEnd_toStartOf="@+id/displayDados"
-        app:layout_constraintHorizontal_bias="0.172"
+        android:layout_width="111dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/bluetooth"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.228"
-        app:srcCompat="@drawable/bluetooth" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/conection_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="232dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/teste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="480dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

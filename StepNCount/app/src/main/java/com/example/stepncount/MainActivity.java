@@ -24,24 +24,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Intent Con = new Intent(getApplicationContext(), Connect.class);
         startActivity(Con);
-
-        /* ------------------------------- Shared preferences ------------------------------- */
-
-        // Configs
         SharedPreferences configPref = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
-        boolean firstStart = configPref.getBoolean("firstStart", true); // Second value (true in this case) is always the default value if nothing is saved yet
+        // Second value (true in this case) is always the default value if nothing is saved yet
 
-        if (firstStart) { // Checks if it is the first time the user opens the app
-            Intent configAct = new Intent(getApplicationContext(), ConfigActivity.class);
-            startActivity(configAct);
 
-        } else {
-            Intent resultAct = new Intent(getApplicationContext(), ResultsActivity.class);
-            startActivity(resultAct);
-        }
+
+
+
 
     }
 }
