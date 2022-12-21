@@ -157,7 +157,8 @@ public class ConfigActivity extends AppCompatActivity {
 
                 // Goes to main activity
 
-                gotoMain();
+                //gotoMain(); ---alterar
+                gotoGoals();
             }
         });
 
@@ -170,6 +171,10 @@ public class ConfigActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void gotoGoals(){
+        Intent i = new Intent(getApplicationContext(), GoalsActivity.class);
+        startActivity(i);
+    }
     public void loadData(){
 
         // Load config shared preferences

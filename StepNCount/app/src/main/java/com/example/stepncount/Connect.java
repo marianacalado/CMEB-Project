@@ -1,15 +1,8 @@
 package com.example.stepncount;
 
 
-import static com.example.stepncount.ConfigActivity.CONFIG_PREFS;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,11 +14,6 @@ import android.widget.Button;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import Bio.Library.namespace.BioLib;
 
@@ -100,6 +88,7 @@ public class Connect extends Activity {
     private int nBytes = 0;
 
     private String accConf = "";
+
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -208,7 +197,7 @@ public class Connect extends Activity {
             e.printStackTrace();
         }
 
-        buttonConnect = (Button) findViewById(R.id.buttonConnect);
+        buttonConnect = (Button) findViewById(R.id.buttonCon);
         buttonConnect.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view)
             {
