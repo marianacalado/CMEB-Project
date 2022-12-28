@@ -74,8 +74,6 @@ public class ConfigActivity extends AppCompatActivity {
                 String [] auxStr=genderPck.getDisplayedValues();
                 genderInp = auxStr[newValue];
 
-                System.out.println("2---------------------------------------------------------------------"+ genderInp);
-
             }
         });
 
@@ -132,15 +130,19 @@ public class ConfigActivity extends AppCompatActivity {
             loadData();
         }
 
+        /* ------------------------------- Save Button ------------------------------- */
+
         Button bt = findViewById(R.id.btn); //represent object como uma interface view (element in the layout), capture our button from layout
         bt.setOnClickListener(new View.OnClickListener() { //defining a listener: register the onClick listener with the implementation
             //the parameters can be a function that will be called when the user clicks on the button
             @Override
             public void onClick(View view) {
 
-                // Save info
+                // Saves info
 
-                genderInp = gen[genderPck.getValue()]; // If the user does not choose a new value in the picker, this saves the default value
+                String [] auxStr=genderPck.getDisplayedValues();
+
+                genderInp = auxStr[genderPck.getValue()]; // If the user does not choose a new value in the picker, this saves the default value
                 weightInp = weightPck.getValue();
                 birthInp = birthPck.getValue();
                 heightInp = heightPck.getValue();
@@ -163,8 +165,6 @@ public class ConfigActivity extends AppCompatActivity {
 
     }
 
-    /* ------------------------------- Save Button ------------------------------- */
-
     public void gotoMain(){
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -180,8 +180,6 @@ public class ConfigActivity extends AppCompatActivity {
         Weight = configPreferences.getInt(WEIGHT,70);
         Birth = configPreferences.getInt(BIRTH, 1997);
         Height = configPreferences.getInt(HEIGHT,165);
-
-        System.out.println("--------------------------------------------------------- Height: "+Height);
 
         // Updating views
 

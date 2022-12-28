@@ -11,6 +11,7 @@
     android:orientation="vertical"
     tools:context=".ConfigActivity"> <!-- To change ColorScheme access themes.xml -->
 
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -135,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/MainColor"
+        android:backgroundTint="@color/Pickr"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline6"
