@@ -3,27 +3,55 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <target>android-32</target>
+        <target>android-33</target>
       </config>
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="2b523aee-4be8-4c98-b934-0f9916f7d2c2" name="Changes" comment="merge conflits">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/dataHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/dataHelper.java" afterDir="false" />
+=======
+    <list default="true" id="2b523aee-4be8-4c98-b934-0f9916f7d2c2" name="Changes" comment="Updated Graphs">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/highbat.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_android.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/lowbat.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/lowhighbat.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/lowmidbat.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/ConfigActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/ConfigActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/Connect.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/GraphDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/GraphDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/GraphPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/GraphsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/ResultsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/stepncount/ResultsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_connect.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_connect.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_goals.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_goals.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_graph_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_graph_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_results.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_results.xml" afterDir="false" />
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[52032814ec976427]" />
+=======
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\migue\.android\avd\Pixel_2_API_33.avd]" />
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -51,6 +79,10 @@
       <list>
         <option value="resourceFile" />
         <option value="valueResourceFile" />
+<<<<<<< HEAD
+=======
+        <option value="resourceFile" />
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
         <option value="Class" />
       </list>
     </option>
@@ -86,9 +118,15 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="cidr.known.project.marker" value="true" />
+<<<<<<< HEAD
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-v24" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
     <property name="project.structure.last.edited" value="Modules" />
+=======
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="project.structure.last.edited" value="SDK Location" />
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.12706481" />
   </component>
@@ -97,7 +135,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+<<<<<<< HEAD
       <recent name="C:\Users\maria\AndroidStudioProjects\CMEB-Project\StepNCount\app\src\main\res\drawable-v24" />
+=======
+      <recent name="C:\Users\migue\OneDrive\Ambiente de Trabalho\MESTRADO\CMEB\Project\CMEB-Project\StepNCount\app\src\main\res\drawable" />
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
       <recent name="C:\Users\migue\OneDrive\Ambiente de Trabalho\MESTRADO\CMEB\StepNCount\app\src\main\res\drawable" />
     </key>
     <key name="android.template.295050629">

@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -25,16 +26,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class GraphDisplay extends ContextWrapper { // Class to hold all the graph formatting
+public class GraphDisplay extends ContextWrapper {
+
+    // Class to hold all the graph formatting
 
     private int BackgroundColor = ContextCompat.getColor(this, R.color.Background);
     private int GridColor       = ContextCompat.getColor(this,R.color.Grid);
+
+    private LineData lineData;
+    private YAxis LeftyAx;
 
     public GraphDisplay(Context base) { // Adds context to the class
         super(base);
     } // Sets the context of the class
 
-    public LineDataSet chartSetUp(LineChart chart, ArrayList<Entry> data, int dataPointsColor, int lineColor){
+    public LineDataSet chartSetUp(LineChart chart, ArrayList<Entry> data, int dataPointsColor, int lineColor, int int_OR_float){
+
 
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
@@ -78,7 +85,7 @@ public class GraphDisplay extends ContextWrapper { // Class to hold all the grap
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(week);
 
-        LineData lineData = new LineData(dataSets);
+        lineData = new LineData(dataSets);
         chart.setData(lineData);
         chart.setExtraTopOffset(2);
 
@@ -95,45 +102,6 @@ public class GraphDisplay extends ContextWrapper { // Class to hold all the grap
         xAx.setDrawGridLinesBehindData(true);
         xAx.setDrawLimitLinesBehindData(true);
 
-        // Week strings for the xAxis
-
-        DateFormat format = new SimpleDateFormat("EE, dd/MM/yyyy", Locale.UK);
-        Calendar today = Calendar.getInstance();
-
-        int currDay = today.getFirstDayOfWeek();
-        today.setFirstDayOfWeek(currDay);
-        today.set(Calendar.DAY_OF_WEEK, currDay);
-
-        String[] days = new String[7];
-        int idx = format.format(today.getTime()).indexOf(",");
-        for (int i = 0; i < 7; i++)
-        {
-            days[i] = format.format(today.getTime()).substring(0,idx);
-            today.add(Calendar.DAY_OF_MONTH, 1);
-            //System.out.println(days[i]);
-        }
-
-        xAx.setValueFormatter(new IndexAxisValueFormatter(days));
-
-        // Left Y Axis
-
-        float threshAbove = (float) lineData.getYMax() + Math.round(0.35*lineData.getYMax()); // Y axis upper threshold is always 35% higher than the max value
-        float threshBelow = (float) lineData.getYMin() - Math.round(0.10*lineData.getYMax()); // Y axis lower threshold is always 10% smaller than the max value
-
-        LimitLine upperLim = new LimitLine(threshAbove);
-        upperLim.setLineWidth(3);
-        upperLim.setLineColor(dataPointsColor);
-        upperLim.enableDashedLine(10f,10f,0f);
-        upperLim.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-
-        YAxis LeftyAx = chart.getAxisLeft();
-        LeftyAx.setDrawAxisLine(false);
-        LeftyAx.setDrawLabels(false);
-        LeftyAx.setGridColor(BackgroundColor);
-        LeftyAx.setAxisMaximum(threshAbove);
-        LeftyAx.setAxisMinimum(threshBelow);
-        LeftyAx.addLimitLine(upperLim);
-
         // Right Y Axis
 
         YAxis RightyAx = chart.getAxisRight();
@@ -141,9 +109,50 @@ public class GraphDisplay extends ContextWrapper { // Class to hold all the grap
         RightyAx.setDrawLabels(false);
         RightyAx.setGridColor(BackgroundColor);
 
-        // Area under the graph
+        // Left Y Axis
+
+        LeftyAx = chart.getAxisLeft();
+        LeftyAx.setDrawAxisLine(false);
+        LeftyAx.setDrawLabels(false);
+        LeftyAx.setGridColor(BackgroundColor);
+
+        // Week strings for the xAxis
+
+        DateFormat format = new SimpleDateFormat("EE, dd/MM/yyyy", Locale.UK);
+        Calendar today = Calendar.getInstance();
+
+        String[] days = new String[7];
+        int idx = format.format(today.getTime()).indexOf(",");
+        for (int i = 6; i >= 0; i--)
+        {
+            days[i] = format.format(today.getTime()).substring(0,idx);
+            today.add(Calendar.DAY_OF_MONTH, -1); // -1 means it will go from the current day one by one to seven days in the past.
+                                                     // 1 would do the same but in the future.
+                                                     // Because of this the for loop has to be in reverse
+            //System.out.println(days[i]);
+        }
+
+        xAx.setValueFormatter(new IndexAxisValueFormatter(days)); // Sets the upper X labels
+
+        if (int_OR_float == 0)
+        {
+
+        }
+
+        if (int_OR_float == 1) // Condition to sets the values on the chart int values (Steps)
+        {
+            ValueFormatter vf = new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return "" + (int) value;
+                }
+            };
+
+            week.setValueFormatter(vf);
+        }
 
         return week;
+
 
     }
 
@@ -170,6 +179,42 @@ public class GraphDisplay extends ContextWrapper { // Class to hold all the grap
         }else{
             week.setFillColor(defaultColor);
         }
+    }
+
+    public void updateUpperThreshold(int currMax, int dataPointsColor) {
+
+        float perc = (float) 0.35;
+        float aux = lineData.getYMax() + Math.round(perc * lineData.getYMax());
+        float threshAbove;
+
+        if(aux >= 0 && aux <= 10)
+        {
+            threshAbove = 10;
+        }
+        else
+        {
+            if (currMax >= aux - currMax * perc) {
+                threshAbove = currMax + currMax * perc;
+            } else {
+                threshAbove = aux;
+            }
+        }
+
+        LimitLine upperLim = new LimitLine(threshAbove);
+        upperLim.setLineWidth(3);
+        upperLim.setLineColor(dataPointsColor);
+        upperLim.enableDashedLine(10f, 10f, 0f);
+        upperLim.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+
+        LeftyAx.setAxisMaximum(threshAbove);
+        LeftyAx.removeAllLimitLines();
+        LeftyAx.addLimitLine(upperLim);
+
+        float threshBelow = lineData.getYMin() - Math.round(0.10 * lineData.getYMax()); // Y axis lower threshold is always 10% smaller than the max value
+        LeftyAx.setAxisMinimum(threshBelow);
+
+        // Faltam os GOALS e database
+
     }
 
 }

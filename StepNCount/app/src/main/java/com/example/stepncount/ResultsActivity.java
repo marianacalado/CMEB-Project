@@ -1,5 +1,6 @@
 package com.example.stepncount;
 
+
 import static com.example.stepncount.GoalsActivity.CAL_GOAL;
 import static com.example.stepncount.GoalsActivity.DIST_GOAL;
 import static com.example.stepncount.GoalsActivity.GOALS_PREFS;
@@ -8,10 +9,21 @@ import static com.example.stepncount.GoalsActivity.TIME_GOAL;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+<<<<<<< HEAD
 import android.database.Cursor;
+=======
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RotateDrawable;
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -57,16 +69,23 @@ import androidx.core.app.ActivityCompat;
 
 public class ResultsActivity extends AppCompatActivity {
 
+    private static final String TAG = "Results";
+
+    // View variables
+
     private ProgressBar stepsBar;
     private ProgressBar calsBar;
     private ProgressBar distBar;
     private ProgressBar timeBar;
+
+    // Goals variables
 
     private int stepGoal;
     private int calGoal;
     private int distGoal;
     private int timeGoal;
 
+<<<<<<< HEAD
     //database
     dataHelper helper; //dataHelper as our bridge to the database
     float dayStep;
@@ -132,12 +151,16 @@ public class ResultsActivity extends AppCompatActivity {
     private byte[] infoRadioEvent = null;
     private short countEvent = 0;
     private boolean isConn = false;
+=======
+    // Text views
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
 
     private TextView stepsT;
     private TextView calT;
     private TextView distT;
     private TextView timeT;
 
+<<<<<<< HEAD
     private byte[][] ecg = null;
     private int nBytes = 0;
     private String accConf = "";
@@ -236,11 +259,30 @@ public class ResultsActivity extends AppCompatActivity {
      * @return
      */
 
+=======
+    private TextView batteryView;
+
+    // Decimal format
+
+    private DecimalFormat df;
+
+    // Chart
+
+    private GraphDisplay graph;
+    private LineDataSet weekSteps;
+    private LineChart chart;
+    private int xPoint = 6;
+
+    // Color
+
+    private int StepsDataPointsColor;
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+<<<<<<< HEAD
         helper = new dataHelper(this); //instaciar
 
         //connect
@@ -264,19 +306,25 @@ public class ResultsActivity extends AppCompatActivity {
      *
      */
         Connect();
+=======
+        df = new DecimalFormat("#.#");
+
+        batteryView = findViewById(R.id.battery);
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
 
         // Goals
-        SharedPreferences goalPref   = getSharedPreferences(GOALS_PREFS, MODE_PRIVATE);
 
-        stepGoal = goalPref.getInt(STEPS_GOAL,10000);
+        SharedPreferences goalPref = getSharedPreferences(GOALS_PREFS, MODE_PRIVATE);
+
+        stepGoal = goalPref.getInt(STEPS_GOAL, 10000);
         calGoal = goalPref.getInt(CAL_GOAL, 500);
         distGoal = goalPref.getInt(DIST_GOAL, 8);
         timeGoal = goalPref.getInt(TIME_GOAL, 1);
 
         // Importing color scheme from Resource Files: res/values/colors.xml
 
-        int StepsDataPointsColor = ContextCompat.getColor(this, R.color.DataPointVal);
-        int ProgBarColor         = ContextCompat.getColor(this,R.color.MainColor);
+        StepsDataPointsColor = ContextCompat.getColor(this, R.color.DataPointVal);
+        int ProgBarColor = ContextCompat.getColor(this, R.color.MainColor);
 
         /* ------------------------------- ProgressBar Views ------------------------------- */
 
@@ -291,12 +339,21 @@ public class ResultsActivity extends AppCompatActivity {
 
         ArrayList<Entry> steps = new ArrayList<>();
 
+<<<<<<< HEAD
         steps.add(new Entry(0, 200));
         steps.add(new Entry(1, 3000));
         steps.add(new Entry(2, 1000));
         steps.add(new Entry(3, 400));
         steps.add(new Entry(4, 40));
         steps.add(new Entry(5, 5000));
+=======
+        steps.add(new Entry(0, 2));
+        steps.add(new Entry(1, 3));
+        steps.add(new Entry(2, 4));
+        steps.add(new Entry(3,8));
+        steps.add(new Entry(4, 4));
+        steps.add(new Entry(5, 5));
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
         steps.add(new Entry(6, 0));
 
         // Calories
@@ -337,6 +394,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         /* ------------------------------- Text Views ------------------------------- */
 
+<<<<<<< HEAD
         stepsT = (TextView) findViewById(R.id.stepsTxt);
         calT   = (TextView) findViewById(R.id.calTxt);
         distT  = (TextView) findViewById(R.id.distTxt);
@@ -357,17 +415,27 @@ public class ResultsActivity extends AppCompatActivity {
         timeT.setText(String.valueOf(dayTime));
 
         updateBarProgress(dayStep,dayCal,dayDist,dayTime);
+=======
+        stepsT = findViewById(R.id.stepsTxt);
+        calT = findViewById(R.id.calTxt);
+        distT = findViewById(R.id.distTxt);
+        timeT = findViewById(R.id.timeTxt);
+
+        // Setting TextViews and Progress with the latest day values
+
+        int arraySz = steps.size() - 1;
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
 
         //adddata();
 
         /* ------------------------------- Weekly Chart ------------------------------- */
 
-        LineChart chart = (LineChart) findViewById(R.id.graph);
+        chart = (LineChart) findViewById(R.id.graph);
 
-        GraphDisplay graph = new GraphDisplay(this);
-        LineDataSet weekSteps = graph.chartSetUp(chart,steps,StepsDataPointsColor,ProgBarColor);
-        graph.graphFade(weekSteps,R.drawable.fade_red, StepsDataPointsColor);
-
+        graph = new GraphDisplay(this);
+        weekSteps = graph.chartSetUp(chart, steps, StepsDataPointsColor, ProgBarColor, 1);
+        graph.updateUpperThreshold(0, StepsDataPointsColor);
+        graph.graphFade(weekSteps, R.drawable.fade_red, StepsDataPointsColor);
 
         // Click listener for the value selected on the graph
 
@@ -376,6 +444,9 @@ public class ResultsActivity extends AppCompatActivity {
             public void onValueSelected(Entry e, Highlight h) {
                 float dayStep = e.getY();
 
+                xPoint = (int) e.getX();
+
+
                 int idx = 0;
                 for (int i = 0; i <= arraySz; i++) {
                     if (dayStep == steps.get(i).getY()) {
@@ -383,7 +454,11 @@ public class ResultsActivity extends AppCompatActivity {
                     }
                 }
 
+<<<<<<< HEAD
                 int dayCal  = (int)calories.get(idx).getY();
+=======
+                float dayCal = calories.get(idx).getY();
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
                 float dayDist = distance.get(idx).getY();
                 float dayTime = time.get(idx).getY();
 
@@ -392,7 +467,7 @@ public class ResultsActivity extends AppCompatActivity {
                 distT.setText(String.valueOf(dayDist));
                 timeT.setText(String.valueOf(dayTime));
 
-                updateBarProgress(dayStep,dayCal,dayDist,dayTime);
+                updateBarProgress(dayStep, dayCal, dayDist, dayTime);
 
             }
 
@@ -402,45 +477,130 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
+        dataStream();
+        batteryStream();
+
         /* ------------------------------- Goal Button ------------------------------- */
 
-        Button goalsButton = (Button) findViewById(R.id.goalsBtn);
-        goalsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openGoals = new Intent(getApplicationContext(), GoalsActivity.class);
-                startActivity(openGoals);
-            }
+        Button goalsButton = findViewById(R.id.goalsBtn);
+        goalsButton.setOnClickListener(view -> {
+            Intent openGoals = new Intent(getApplicationContext(), GoalsActivity.class);
+            startActivity(openGoals);
         });
 
         /* ------------------------------- Config Button ------------------------------- */
 
-        Button configButton = (Button) findViewById(R.id.configBtn);
-        configButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openConfig = new Intent(getApplicationContext(), ConfigActivity.class);
-                startActivity(openConfig);
+        Button configButton = findViewById(R.id.configBtn);
+        configButton.setOnClickListener(view -> {
+            Intent openConfig = new Intent(getApplicationContext(), ConfigActivity.class);
+            startActivity(openConfig);
 
-            }
         });
 
         /* ------------------------------- Expand Button ------------------------------- */
 
-        Button expandBtn = (Button) findViewById(R.id.expandBtn);
-        expandBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent opengraphPage = new Intent(getApplicationContext(), GraphPage.class);
-                startActivity(opengraphPage);
+        Button expandBtn = findViewById(R.id.expandBtn);
+        expandBtn.setOnClickListener(view -> {
+            Intent opengraphPage = new Intent(getApplicationContext(), GraphsActivity.class);
+            startActivity(opengraphPage);
 
-            }
         });
 
     }
 
+<<<<<<< HEAD
 
     public void updateBarProgress(float dayStep, int dayCal, float dayDist, float dayTime){
+=======
+    public void dataStream() { //
+        BroadcastReceiver dataReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // Get data included in the Intent from service
+
+                Bundle b = intent.getBundleExtra("AppData");
+
+                int updatedSteps = b.getInt("Steps", 0);
+                double updatedCal = b.getDouble("Kcal", 0);
+
+                if (xPoint == 6) { // Receive intent with data and update the Progress only if the nothing is selected or the current's day value is selected
+
+                    stepsT.setText(String.valueOf(updatedSteps));
+                    calT.setText(df.format(updatedCal) + " Kcal");
+
+                    updateBarProgress((float) updatedSteps, (float) updatedCal, 0, 0);
+                }
+
+                // Keeps updating
+
+                weekSteps.removeLast();
+                weekSteps.addEntry(new Entry(6,updatedSteps));
+                weekSteps.notifyDataSetChanged(); // Let the data know a dataSet changed
+                graph.updateUpperThreshold(updatedSteps, StepsDataPointsColor);
+                chart.notifyDataSetChanged(); // Let the chart know it's data changed
+                chart.invalidate(); // Refresh
+            }
+        };
+
+        // Register the service
+
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
+                dataReceiver, new IntentFilter("Update UI"));
+    }
+
+
+    public void batteryStream() { // Battery
+        BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                Drawable batLevel = null;
+
+                // Get data included in the Intent from service
+
+                Bundle b = intent.getBundleExtra("BatData");
+
+                int battery = b.getInt("Battery", 0);
+
+                if (battery >= 80 && battery <= 100)
+                {
+                    batLevel = ContextCompat.getDrawable(getApplicationContext(), R.drawable.highbat);
+                }
+                else if(battery >= 50 && battery < 80)
+                {
+                    batLevel = ContextCompat.getDrawable(getApplicationContext(), R.drawable.lowhighbat);
+                }
+                else if(battery >= 25 && battery < 50)
+                {
+                    batLevel = ContextCompat.getDrawable(getApplicationContext(), R.drawable.lowmidbat);
+                }
+                else
+                {
+                    batLevel = ContextCompat.getDrawable(getApplicationContext(), R.drawable.lowbat);
+
+                }
+
+                // Resize drawable
+
+
+                Bitmap bitmap = ((BitmapDrawable) batLevel).getBitmap();
+                Drawable drawBat = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 45, 20, true));
+                batteryView.setCompoundDrawablesWithIntrinsicBounds(null, drawBat, null,null);
+                batteryView.setCompoundDrawablePadding(6);
+                batteryView.setText("VJ: "+ battery + " %");
+            }
+        };
+
+        // Register the service
+
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
+                batteryReceiver, new IntentFilter("Update Battery UI"));
+    }
+
+
+    public void updateBarProgress(float dayStep, float dayCal, float dayDist, float dayTime){
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
 
         // Updates ProgressBars based on previously set goals
 
@@ -452,6 +612,7 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
 
+<<<<<<< HEAD
     public void stepCounter()
     {
 
@@ -594,3 +755,12 @@ public class ResultsActivity extends AppCompatActivity {
         helper.close();
     }
 }
+=======
+
+}
+
+
+
+
+
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688

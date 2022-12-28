@@ -10,6 +10,12 @@
         android:name="android.software.leanback"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.LOCAL_MAC_ADDRESS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
@@ -38,16 +44,23 @@
         android:required="false" />
 
     <application
-        android:allowBackup="true"
+        android:name=".AcquisitionNotification"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
+<<<<<<< HEAD
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/iconapp"
+=======
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StepNCount"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".ResultsActivity"
             android:exported="false">
             <meta-data
@@ -69,6 +82,8 @@
                 android:value="" />
         </activity>
         <activity
+=======
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -78,12 +93,31 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ResultsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".GraphsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
             android:name=".ConfigActivity"
             android:exported="true" />
         <activity
             android:name=".GoalsActivity"
             android:exported="true" />
 
+<<<<<<< HEAD
+=======
+        <service android:name=".AcquisitionService"></service>
+>>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
     </application>
 
 </manifest>
