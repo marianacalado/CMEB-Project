@@ -134,11 +134,6 @@ public class GraphDisplay extends ContextWrapper {
 
         xAx.setValueFormatter(new IndexAxisValueFormatter(days)); // Sets the upper X labels
 
-        if (int_OR_float == 0)
-        {
-
-        }
-
         if (int_OR_float == 1) // Condition to sets the values on the chart int values (Steps)
         {
             ValueFormatter vf = new ValueFormatter() {
@@ -212,8 +207,6 @@ public class GraphDisplay extends ContextWrapper {
 
         float threshBelow = lineData.getYMin() - Math.round(0.10 * lineData.getYMax()); // Y axis lower threshold is always 10% smaller than the max value
         LeftyAx.setAxisMinimum(threshBelow);
-
-        // Faltam os GOALS e database
 
     }
 

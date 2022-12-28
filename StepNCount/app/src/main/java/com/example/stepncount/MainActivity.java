@@ -47,16 +47,6 @@ public class MainActivity extends AppCompatActivity {
     public void startService() {
 
         Intent serviceIntent = new Intent(this, AcquisitionService.class);
-        //serviceIntent.putExtra("inputExtra", input);
-
         ContextCompat.startForegroundService(this, serviceIntent);
     }
-
-    public void stopService() {
-        Intent serviceIntent = new Intent(this, AcquisitionService.class);
-        stopService(serviceIntent);
-    }
-
-
-
 }
