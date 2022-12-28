@@ -10,11 +10,7 @@ import java.util.Date;
 
 //creation and connection trough a class derived from SQLiteOpenHelper
 public class dataHelper extends SQLiteOpenHelper {
-<<<<<<< HEAD
     private static final String DATABASE_NAME="database.db";
-=======
-    private static final String DATABASE_NAME="StepNCount.db";
->>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
     private static final int SCHEMA_VERSION=1;
 
     public dataHelper(Context context) {
@@ -35,16 +31,8 @@ public class dataHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-<<<<<<< HEAD
-
-
 //put information into a database : Insert data into the database by passing a ContentValues object to the insert() method:
 
-
-=======
-//put information into a database : Insert data into the database by passing a ContentValues object to the insert() method:
-
->>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
     // Insert a new record into the Events data base.
     public long insert( int steps, int cal, float dist, String data) { //String hour, String energyE
         ContentValues cv = new ContentValues();
@@ -70,22 +58,12 @@ public class dataHelper extends SQLiteOpenHelper {
 
 //Read information from a database: query method, The results of the query are returned to you in a Cursor object. falta cenas
 
-<<<<<<< HEAD
-    //o query the database and put the result in a cursor for all the restaurants and also
-    //for a single restaurant, given its _id.
-=======
->>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
     public Cursor getAll() {
         return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, data FROM Data GROUP BY data", null));
     }
 
-<<<<<<< HEAD
-    public Cursor getByhour(String data) {
-        String[] args={data};
-=======
     public Cursor getByday(String id) {
         String[] args={id};
->>>>>>> 5f3e6938e58f84188359f84a744ab28361098688
         return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, data FROM Data WHERE data=?", args)); //,hour energyE
     }
 
@@ -97,9 +75,4 @@ public class dataHelper extends SQLiteOpenHelper {
         return(c.getString(2));
     }
 
-<<<<<<< HEAD
 }
-
-=======
-}
->>>>>>> 5f3e6938e58f84188359f84a744ab28361098688

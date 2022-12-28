@@ -247,8 +247,7 @@ public class GoalsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Intent i = new Intent(getApplicationContext(), MainActivity.class); //nos futuros
-                Intent i = new Intent(getApplicationContext(), ResultsActivity.class);
+                Intent i = new Intent(getApplicationContext(), MainActivity.class); //create an intent and fill it with data from the second activity's class, this is built and sent by the main activity
                 startActivity(i);
 
                 // Pass the saved goals to main

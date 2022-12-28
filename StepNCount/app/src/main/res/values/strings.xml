@@ -17,6 +17,7 @@
     <string name="tv_dist">Distance (km)</string>
     <string name="tv_time">Time (h)</string>
     <string name="menu_settings">Title</string>
+    <string name="men_settings">menu_settings</string>
     <string name="tv_step_height">Step Height (cm)</string>
     <string name="title_activity_bluetooth_test">BluetoothTest</string>
     <!-- Strings used for fragments for navigation -->
