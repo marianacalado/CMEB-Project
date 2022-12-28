@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences configPref = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
         boolean firstStart = configPref.getBoolean("firstStart", true); // Second value (true in this case) is always the default value if nothing is saved yet
 
+
         if (firstStart) { // Checks if it is the first time the user opens the app
                           // If so, the user sets the Config inputs
 
@@ -39,14 +40,32 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Intent resultAct = new Intent(getApplicationContext(), ResultsActivity.class);
             startActivity(resultAct);
-            startService();
+            //startService();
         }
 
     }
 
+<<<<<<< HEAD
     public void startService() {
 
         Intent serviceIntent = new Intent(this, AcquisitionService.class);
         ContextCompat.startForegroundService(this, serviceIntent);
     }
+=======
+    //public void startService() {
+//
+    //    Intent serviceIntent = new Intent(this, AcquisitionService.class);
+    //    //serviceIntent.putExtra("inputExtra", input);
+//
+    //    ContextCompat.startForegroundService(this, serviceIntent);
+    //}
+//
+    //public void stopService() {
+    //    Intent serviceIntent = new Intent(this, AcquisitionService.class);
+    //    stopService(serviceIntent);
+    //}
+
+
+
+>>>>>>> d743791ae5fb36eef9836f3f2405b9488273af8d
 }

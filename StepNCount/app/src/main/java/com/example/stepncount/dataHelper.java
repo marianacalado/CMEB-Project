@@ -10,7 +10,7 @@ import java.util.Date;
 
 //creation and connection trough a class derived from SQLiteOpenHelper
 public class dataHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME="StepNCount.db";
+    private static final String DATABASE_NAME="database.db";
     private static final int SCHEMA_VERSION=1;
 
     public dataHelper(Context context) {
