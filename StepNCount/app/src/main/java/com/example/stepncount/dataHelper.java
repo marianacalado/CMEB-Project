@@ -67,8 +67,8 @@ public class dataHelper extends SQLiteOpenHelper {
         return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, data FROM Data GROUP BY data", null));
     }
 
-    public Cursor getByhour(String id) {
-        String[] args={id};
+    public Cursor getByhour(String data) {
+        String[] args={data};
         return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, data FROM Data WHERE data=?", args)); //,hour energyE
     }
 
