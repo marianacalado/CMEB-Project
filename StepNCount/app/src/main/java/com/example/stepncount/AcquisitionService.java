@@ -7,7 +7,12 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
+import android.content.AttributionSource;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,10 +22,13 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.github.mikephil.charting.data.Entry;
 
 import java.util.Date;
 
@@ -68,6 +76,7 @@ public class AcquisitionService extends Service {
     private static Integer stepCount = 0;
 
 
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -77,8 +86,10 @@ public class AcquisitionService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "onCreate: " + address);
 
         AcquisitionThread.start();
+
 
         @SuppressLint("HandlerLeak")
         Handler mHandler = new Handler(AcquisitionThread.getLooper()) {
@@ -96,6 +107,7 @@ public class AcquisitionService extends Service {
                         break;
 
                     case BioLib.MESSAGE_BLUETOOTH_ENABLED:
+
                         Toast.makeText(getApplicationContext(), "Bluetooth is now enabled! ", Toast.LENGTH_SHORT).show();
                         break;
 
@@ -116,13 +128,11 @@ public class AcquisitionService extends Service {
 
                     case BioLib.UNABLE_TO_CONNECT_DEVICE:
                         Toast.makeText(getApplicationContext(), "Unable to connect device! ", Toast.LENGTH_SHORT).show();
-
                         onDestroy(); // Destroy service if connection is lost
                         break;
 
                     case BioLib.MESSAGE_DISCONNECT_TO_DEVICE:
                         Toast.makeText(getApplicationContext(), "Device connection was lost", Toast.LENGTH_SHORT).show();
-
                         onDestroy(); // Destroy service if connection is lost
                         break;
 
@@ -188,8 +198,11 @@ public class AcquisitionService extends Service {
 
     }
 
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
 
         Intent notificationIntent = new Intent(this, ResultsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -216,7 +229,10 @@ public class AcquisitionService extends Service {
     }
 
     private void Connect() { // Bluetooth connection
+
         try {
+
+            Log.d(TAG, "Connect: " + address);
             deviceToConnect = lib.mBluetoothAdapter.getRemoteDevice(address);
 
             lib.Connect(address, 5);
@@ -227,12 +243,14 @@ public class AcquisitionService extends Service {
         }
     }
 
+
     private void accelerometerData(Handler mHandler){ // The thread executes this case of the Handler (ACC data update)
         Message msg = Message.obtain();
         msg.what = BioLib.MESSAGE_ACC_UPDATED;
 
         mHandler.obtainMessage(msg.what);
     }
+
 
     private void batteryData(Handler mHandler){ // Battery
         Message msg = Message.obtain();

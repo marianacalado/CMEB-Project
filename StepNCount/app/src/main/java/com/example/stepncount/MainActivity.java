@@ -9,21 +9,15 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import Bio.Library.namespace.BioLib;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /* ------------------------------- Shared preferences ------------------------------- */
 
         // Configs
         SharedPreferences configPref = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
@@ -45,27 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-<<<<<<< HEAD
     public void startService() {
 
         Intent serviceIntent = new Intent(this, AcquisitionService.class);
+        //serviceIntent.putExtra("inputExtra", input);
+
         ContextCompat.startForegroundService(this, serviceIntent);
     }
-=======
-    //public void startService() {
-//
-    //    Intent serviceIntent = new Intent(this, AcquisitionService.class);
-    //    //serviceIntent.putExtra("inputExtra", input);
-//
-    //    ContextCompat.startForegroundService(this, serviceIntent);
-    //}
-//
-    //public void stopService() {
-    //    Intent serviceIntent = new Intent(this, AcquisitionService.class);
-    //    stopService(serviceIntent);
-    //}
-
-
-
->>>>>>> d743791ae5fb36eef9836f3f2405b9488273af8d
 }
