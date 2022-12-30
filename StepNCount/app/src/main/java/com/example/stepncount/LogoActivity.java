@@ -26,7 +26,7 @@ public class LogoActivity extends AppCompatActivity {
         else
         {
             Intent serviceIntent = new Intent(this,AcquisitionService.class);
-            serviceIntent.putExtra("Bluetooth", "00:23:FE:00:0B:4D");
+            serviceIntent.putExtra("Bluetooth", "00:23:FE:00:0B:4E");
             ContextCompat.startForegroundService(this, serviceIntent);
 
             (new Handler()).postDelayed(this::goToAct, 5000);

@@ -56,7 +56,7 @@ public class SearchDeviceActivity extends AppCompatActivity {
             }
 
             private void goToResults() {
-                Intent resultAct = new Intent(getApplicationContext(), ResultsActivity.class);
+                Intent resultAct = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(resultAct);
             }
 
