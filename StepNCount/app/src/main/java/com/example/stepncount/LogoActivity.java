@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,26 +16,44 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-        startService();
 
-        (new Handler()).postDelayed(this::goToMain, 5000);
+        boolean isRunning = isServiceRunningInForeground(this,AcquisitionNotification.class);
+
+        if(isRunning)
+        {
+            (new Handler()).postDelayed(this::goToAct, 500);
+        }
+        else
+        {
+            Intent serviceIntent = new Intent(this,AcquisitionService.class);
+            serviceIntent.putExtra("Bluetooth", "00:23:FE:00:0B:4D");
+            ContextCompat.startForegroundService(this, serviceIntent);
+
+            (new Handler()).postDelayed(this::goToAct, 5000);
+        }
 
 
 
     }
 
-    public void goToMain(){
+    public void goToAct(){
         Intent mainAct = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainAct);
 
     }
 
-    public void startService() {
+    public static boolean isServiceRunningInForeground(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
-        Intent serviceIntent = new Intent(this, AcquisitionService.class);
-        //serviceIntent.putExtra("inputExtra", input);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                if (service.foreground) {
+                    return true;
+                }
 
-        ContextCompat.startForegroundService(this, serviceIntent);
+            }
+        }
+        return false;
     }
 
 }

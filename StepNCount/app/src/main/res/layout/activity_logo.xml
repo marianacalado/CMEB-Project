@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26999998"
         app:srcCompat="@drawable/iconapp" />
 
     <TextView
@@ -24,9 +25,10 @@
         android:fontFamily="serif-monospace"
         android:text="Count steps with us"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/fastlane_background"
+        android:textColor="@color/Pickr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLo" />
+        app:layout_constraintTop_toBottomOf="@+id/imgLo"
+        app:layout_constraintVertical_bias="0.24000001" />
 </androidx.constraintlayout.widget.ConstraintLayout>

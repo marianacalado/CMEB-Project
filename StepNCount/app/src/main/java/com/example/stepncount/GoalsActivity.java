@@ -247,9 +247,6 @@ public class GoalsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getApplicationContext(), MainActivity.class); //create an intent and fill it with data from the second activity's class, this is built and sent by the main activity
-                startActivity(i);
-
                 // Pass the saved goals to main
 
                 final String[] auxSteps = extractDigits(stepTxt.getText().toString());
@@ -285,7 +282,8 @@ public class GoalsActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Goals saved", Toast.LENGTH_SHORT).show();
 
-
+                Intent i = new Intent(getApplicationContext(), ResultsActivity.class);
+                startActivity(i);
             }
         });
 

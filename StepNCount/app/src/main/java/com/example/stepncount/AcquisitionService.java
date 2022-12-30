@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.strictmode.FragmentStrictMode;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.github.mikephil.charting.data.Entry;
@@ -44,7 +45,7 @@ public class AcquisitionService extends Service {
     private HandlerThread AcquisitionThread = new HandlerThread("Acquisition");
     private Handler mHandler;
 
-    private String address = "00:23:FE:00:0B:4D";
+    private String address = "";
     private String mConnectedDeviceName = "";
     private BluetoothDevice deviceToConnect;
 
@@ -90,9 +91,9 @@ public class AcquisitionService extends Service {
 
         AcquisitionThread.start();
 
-
         @SuppressLint("HandlerLeak")
         Handler mHandler = new Handler(AcquisitionThread.getLooper()) {
+            @SuppressLint("MissingPermission")
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -120,9 +121,6 @@ public class AcquisitionService extends Service {
                         break;
 
                     case BioLib.STATE_CONNECTED:
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-
-                        }
                         Toast.makeText(getApplicationContext(), "Connected to " + deviceToConnect.getName(), Toast.LENGTH_SHORT).show();
                         break;
 
@@ -191,20 +189,15 @@ public class AcquisitionService extends Service {
             e.printStackTrace();
         }
 
-        Connect();
-
-        accelerometerData(mHandler);
-        batteryData(mHandler);
-
     }
-
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        address = intent.getStringExtra("Bluetooth");
+        Connect();
 
-        Intent notificationIntent = new Intent(this, ResultsActivity.class);
+        Intent notificationIntent = new Intent(this, LogoActivity.class); // User is notified with the LogoActivity
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 
@@ -219,13 +212,6 @@ public class AcquisitionService extends Service {
 
         return START_REDELIVER_INTENT;
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopForeground(true);
-        stopSelf();
     }
 
     private void Connect() { // Bluetooth connection
@@ -244,29 +230,12 @@ public class AcquisitionService extends Service {
     }
 
 
-    private void accelerometerData(Handler mHandler){ // The thread executes this case of the Handler (ACC data update)
-        Message msg = Message.obtain();
-        msg.what = BioLib.MESSAGE_ACC_UPDATED;
-
-        mHandler.obtainMessage(msg.what);
-    }
-
-
-    private void batteryData(Handler mHandler){ // Battery
-        Message msg = Message.obtain();
-        msg.what = BioLib.MESSAGE_DATA_UPDATED;
-
-        mHandler.obtainMessage(msg.what);
-    }
-
     private void dataReady()
     {
         stepCounter();
         calculateKcal();
         sendDataToActivity(stepCount,kcalTotais);
-
     }
-
 
     private void sendDataToActivity(int stepCount, double kcal) {
         Intent intent = new Intent("Update UI");
@@ -336,6 +305,19 @@ public class AcquisitionService extends Service {
         dadosAnteriores[0] = x;
         dadosAnteriores[1] = y;
         dadosAnteriores[2] = z;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Intent searchAct = new Intent(getApplicationContext(), SearchDeviceActivity.class);
+        searchAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(searchAct);
+
+        stopForeground(true);
+        stopSelf();
     }
 
 }

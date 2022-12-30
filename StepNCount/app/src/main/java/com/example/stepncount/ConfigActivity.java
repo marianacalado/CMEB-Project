@@ -166,7 +166,8 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     public void gotoMain(){
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(ConfigActivity.this, ResultsActivity.class);
+        i.putExtra("Debugging", "Working");
         startActivity(i);
     }
 
