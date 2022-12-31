@@ -282,7 +282,7 @@ public class GoalsActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Goals saved", Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(getApplicationContext(), ResultsActivity.class);
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
             }
         });
