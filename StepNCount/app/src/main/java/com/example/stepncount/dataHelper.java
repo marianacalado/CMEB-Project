@@ -19,7 +19,7 @@ public class dataHelper extends SQLiteOpenHelper {
 
     @Override //creation sql statements crate table in database
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Data(id INTEGER PRIMARY KEY AUTOINCREMENT, steps INTEGER, cal int , dist REAL, data TEXT )"); //hour INTEGER PRIMARY KEY AUTOINCREMENT, energyE REAL
+        db.execSQL("CREATE TABLE Data(id INTEGER PRIMARY KEY AUTOINCREMENT, steps INTEGER, cal REAL , dist REAL, data TEXT )"); //hour INTEGER PRIMARY KEY AUTOINCREMENT, energyE REAL
     }
 
     //upgrade  This version of the schema should be created in the onCreate() method. In onUpgrade() we should
@@ -34,14 +34,14 @@ public class dataHelper extends SQLiteOpenHelper {
 //put information into a database : Insert data into the database by passing a ContentValues object to the insert() method:
 
     // Insert a new record into the Events data base.
-    public long insert( int steps, int cal, float dist, String data) { //String hour, String energyE
+    public long insert( int steps, double cal, float dist, String data) { //String hour, String energyE
         ContentValues cv = new ContentValues();
         // Create a new map of values, where column names are the keys
         //cv.put("hour", hour);
         cv.put("steps", steps);
         cv.put("cal", cal);
         cv.put("dist", dist);
-        cv.put("date", data);
+        cv.put("data", data);
         return getWritableDatabase().insert("Data", null , cv); // Result: Insert the new row, returning the primary key value of the new row
     }
     // Update a new record into the Events data base.

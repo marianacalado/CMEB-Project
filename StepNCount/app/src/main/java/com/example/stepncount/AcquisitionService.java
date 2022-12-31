@@ -31,6 +31,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.github.mikephil.charting.data.Entry;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import Bio.Library.namespace.BioLib;
@@ -76,7 +77,8 @@ public class AcquisitionService extends Service {
     private static int runningCounter = 0;
     private static Integer stepCount = 0;
 
-
+    private dataHelper helper; //dataHelper as our bridge to the database
+    private Date currentTime;
 
     @Nullable
     @Override
@@ -194,6 +196,9 @@ public class AcquisitionService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        helper = new dataHelper(this);
+
+
         address = intent.getStringExtra("Bluetooth");
         Connect();
 
@@ -273,7 +278,7 @@ public class AcquisitionService extends Service {
         encherDados(x, y, z);
 
         //System.out.println("------------------------------------------------------------ Counting Steps ------------------------------------------------------------------------");
-
+        currentTime = Calendar.getInstance().getTime();
         if (MagnitudeDelta >= 16.5 && MagnitudeDelta < 30) {
             stepCount++;
             walkingCounter++;
@@ -312,13 +317,22 @@ public class AcquisitionService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
+        adddata();
+
         Intent searchAct = new Intent(getApplicationContext(), SearchDeviceActivity.class);
         searchAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(searchAct);
 
+        helper.close();
+
         stopForeground(true);
         stopSelf();
     }
+
+    public void adddata(){
+        helper.insert(stepCount, kcalTotais, 0, currentTime.toString() ); //falta por estes argumentos timeT, mudar variavel de dist
+    }
+
 
 }
 
