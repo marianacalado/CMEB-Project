@@ -16,44 +16,14 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-
-        boolean isRunning = isServiceRunningInForeground(this,AcquisitionNotification.class);
-
-        if(isRunning)
-        {
-            (new Handler()).postDelayed(this::goToAct, 500);
-        }
-        else
-        {
-            Intent serviceIntent = new Intent(this,AcquisitionService.class);
-            serviceIntent.putExtra("Bluetooth", "00:23:FE:00:0B:4D");
-            ContextCompat.startForegroundService(this, serviceIntent);
-
-            (new Handler()).postDelayed(this::goToAct, 5000);
-        }
-
-
-
+        (new Handler()).postDelayed(this::goToAct, 3000);
     }
 
     public void goToAct(){
         Intent mainAct = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainAct);
-
     }
 
-    public static boolean isServiceRunningInForeground(Context context, Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                if (service.foreground) {
-                    return true;
-                }
-
-            }
-        }
-        return false;
-    }
 
 }

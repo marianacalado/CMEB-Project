@@ -40,6 +40,7 @@ public class SearchDeviceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_device);
 
+        Log.d(TAG, "onCreate: ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         buttonOK = findViewById(R.id.cmdOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
@@ -49,15 +50,15 @@ public class SearchDeviceActivity extends AppCompatActivity {
                 serviceIntent.putExtra("Bluetooth", selectedValue);
                 ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
 
-                (new Handler()).postDelayed(this::goToResults, 5000);
-
-
+                (new Handler()).postDelayed(this::goToResults, 6000);
 
             }
 
             private void goToResults() {
                 Intent resultAct = new Intent(getApplicationContext(), ResultsActivity.class);
                 startActivity(resultAct);
+
+                Toast.makeText(getApplicationContext(), "StepNCount loading... ", Toast.LENGTH_SHORT).show();
             }
 
         });

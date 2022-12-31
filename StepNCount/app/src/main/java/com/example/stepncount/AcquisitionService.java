@@ -317,8 +317,9 @@ public class AcquisitionService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        adddata();
-
+        if(dataACC != null) {
+            adddata();
+        }
         Intent searchAct = new Intent(getApplicationContext(), SearchDeviceActivity.class);
         searchAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(searchAct);
