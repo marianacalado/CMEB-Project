@@ -112,49 +112,49 @@ public class ResultsActivity extends AppCompatActivity {
 
         ArrayList<Entry> steps = new ArrayList<>();
 
-        steps.add(new Entry(0, 2));
-        steps.add(new Entry(1, 3));
-        steps.add(new Entry(2, 4));
-        steps.add(new Entry(3,8));
-        steps.add(new Entry(4, 4));
-        steps.add(new Entry(5, 5));
+        steps.add(new Entry(0, 0));
+        steps.add(new Entry(1, 0));
+        steps.add(new Entry(2, 0));
+        steps.add(new Entry(3,0));
+        steps.add(new Entry(4, 0));
+        steps.add(new Entry(5, 0));
         steps.add(new Entry(6, 0));
 
         // Calories
 
         ArrayList<Entry> calories = new ArrayList<>();
 
-        calories.add(new Entry(0, 26));
-        calories.add(new Entry(1, 350));
-        calories.add(new Entry(2, 135));
-        calories.add(new Entry(3, 45));
-        calories.add(new Entry(4, 4));
-        calories.add(new Entry(5, 798));
-        calories.add(new Entry(6, 278));
+        calories.add(new Entry(0, 0));
+        calories.add(new Entry(1, 0));
+        calories.add(new Entry(2, 0));
+        calories.add(new Entry(3, 0));
+        calories.add(new Entry(4, 0));
+        calories.add(new Entry(5, 0));
+        calories.add(new Entry(6, 0));
 
         // Distance
 
         ArrayList<Entry> distance = new ArrayList<>();
 
-        distance.add(new Entry(0, (float) 0.4));
-        distance.add(new Entry(1, (float) 2.7));
-        distance.add(new Entry(2, (float) 1.40));
-        distance.add(new Entry(3, (float) 0.8));
-        distance.add(new Entry(4, (float) 0.11));
-        distance.add(new Entry(5, (float) 5.8));
-        distance.add(new Entry(6, (float) 0.37));
+        distance.add(new Entry(0, (float) 0));
+        distance.add(new Entry(1, (float) 0));
+        distance.add(new Entry(2, (float) 0));
+        distance.add(new Entry(3, (float) 0));
+        distance.add(new Entry(4, (float) 0));
+        distance.add(new Entry(5, (float) 0));
+        distance.add(new Entry(6, (float) 0));
 
         // Time
 
         ArrayList<Entry> time = new ArrayList<>();
 
-        time.add(new Entry(0, 2));
-        time.add(new Entry(1, 3));
-        time.add(new Entry(2, 1));
-        time.add(new Entry(3, 4));
-        time.add(new Entry(4, 4));
-        time.add(new Entry(5, 5));
-        time.add(new Entry(6, 3));
+        time.add(new Entry(0, 0));
+        time.add(new Entry(1, 0));
+        time.add(new Entry(2, 0));
+        time.add(new Entry(3, 0));
+        time.add(new Entry(4, 0));
+        time.add(new Entry(5, 0));
+        time.add(new Entry(6, 0));
 
         /* ------------------------------- Text Views ------------------------------- */
 

@@ -40,8 +40,6 @@ public class SearchDeviceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_device);
 
-        Log.d(TAG, "onCreate: ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
         buttonOK = findViewById(R.id.cmdOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -90,13 +88,10 @@ public class SearchDeviceActivity extends AppCompatActivity {
                     listAdapter.add("No Paired Device.");
                 }
             }
-
-
         }
 
-
-
         mainListView.setAdapter( listAdapter );
+        buttonOK.setText("Connect");
 
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -108,14 +103,8 @@ public class SearchDeviceActivity extends AppCompatActivity {
                 String[] aux = selectedValue.split("   ");
                 selectedValue = aux[0];
 
-                String txt = (String) buttonOK.getText();
-                buttonOK.setText(txt + " to\n\n "+ selectedValue);
+                buttonOK.setText("Connect to:\n\n "+ selectedValue);
             }
         });
-
     }
-
-
-
-
 }

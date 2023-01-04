@@ -182,18 +182,13 @@ public class GraphDisplay extends ContextWrapper {
         float aux = lineData.getYMax() + Math.round(perc * lineData.getYMax());
         float threshAbove;
 
-        if(aux >= 0 && aux <= 10)
-        {
-            threshAbove = 10;
+
+        if (currMax >= aux - currMax * perc) {
+            threshAbove = currMax + currMax * perc;
+        } else {
+            threshAbove = aux;
         }
-        else
-        {
-            if (currMax >= aux - currMax * perc) {
-                threshAbove = currMax + currMax * perc;
-            } else {
-                threshAbove = aux;
-            }
-        }
+
 
         LimitLine upperLim = new LimitLine(threshAbove);
         upperLim.setLineWidth(3);

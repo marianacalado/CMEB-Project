@@ -10,7 +10,7 @@ import java.util.Date;
 
 //creation and connection trough a class derived from SQLiteOpenHelper
 public class dataHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME="database.db";
+    private static final String DATABASE_NAME="StepNCount.db";
     private static final int SCHEMA_VERSION=1;
 
     public dataHelper(Context context) {
@@ -19,7 +19,7 @@ public class dataHelper extends SQLiteOpenHelper {
 
     @Override //creation sql statements crate table in database
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Data(id INTEGER PRIMARY KEY AUTOINCREMENT, steps INTEGER, cal REAL , dist REAL, data TEXT )"); //hour INTEGER PRIMARY KEY AUTOINCREMENT, energyE REAL
+        db.execSQL("CREATE TABLE Data(id INTEGER PRIMARY KEY AUTOINCREMENT, steps INTEGER, cal REAL , dist REAL, date TEXT UNIQUE)"); //hour INTEGER PRIMARY KEY AUTOINCREMENT, energyE REAL
     }
 
     //upgrade  This version of the schema should be created in the onCreate() method. In onUpgrade() we should
@@ -34,37 +34,27 @@ public class dataHelper extends SQLiteOpenHelper {
 //put information into a database : Insert data into the database by passing a ContentValues object to the insert() method:
 
     // Insert a new record into the Events data base.
-    public long insert( int steps, double cal, float dist, String data) { //String hour, String energyE
+    public long insert( int steps, double cal, float dist, String date) { //String hour, String energyE
         ContentValues cv = new ContentValues();
         // Create a new map of values, where column names are the keys
         //cv.put("hour", hour);
         cv.put("steps", steps);
         cv.put("cal", cal);
         cv.put("dist", dist);
-        cv.put("data", data);
+        cv.put("date", date);
         return getWritableDatabase().insert("Data", null , cv); // Result: Insert the new row, returning the primary key value of the new row
     }
-    // Update a new record into the Events data base.
-    public void update( String id, String steps, String cal, String dist, String data) { //String hour,String energyE
-        ContentValues cv=new ContentValues();
-        String[] args={id};
-        cv.put("id", id);
-        cv.put("steps", steps);
-        cv.put("cal", cal);
-        cv.put("dist", dist);
-        cv.put("date", data);
-        getWritableDatabase().update("Data", cv, "id=?", args);
-    }
+
 
 //Read information from a database: query method, The results of the query are returned to you in a Cursor object. falta cenas
 
     public Cursor getAll() {
-        return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, data FROM Data GROUP BY data", null));
+        return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, date FROM Data GROUP BY date", null));
     }
 
     public Cursor getByday(String id) {
         String[] args={id};
-        return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, data FROM Data WHERE data=?", args)); //,hour energyE
+        return(getReadableDatabase().rawQuery("SELECT steps, cal, dist, date FROM Date WHERE date=?", args)); //,hour energyE
     }
 
     public String getid(Cursor c) { //gethour

@@ -1,6 +1,8 @@
 package com.example.stepncount;
 
 import static com.example.stepncount.AcquisitionNotification.CHANNEL_ID;
+import static com.example.stepncount.ConfigActivity.CONFIG_PREFS;
+import static com.example.stepncount.ConfigActivity.WEIGHT;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,12 +16,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.util.TimingLogger;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +35,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.github.mikephil.charting.data.Entry;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -60,7 +66,7 @@ public class AcquisitionService extends Service {
     private int numOfPushButton = 0;
     private String deviceId = "";
     private String firmwareVersion = "";
-    private byte accSensibility = 1;    // NOTE: 2G= 0, 4G= 1
+    private byte accSensibility = 0;    // NOTE: 2G= 0, 4G= 1
     private byte typeRadioEvent = 0;
     private byte[] infoRadioEvent = null;
     private short countEvent = 0;
@@ -77,8 +83,14 @@ public class AcquisitionService extends Service {
     private static int runningCounter = 0;
     private static Integer stepCount = 0;
 
+    // DB
+
     private dataHelper helper; //dataHelper as our bridge to the database
     private Date currentTime;
+
+    // Config
+    private SharedPreferences configPreferences;
+    private int Weight;
 
     @Nullable
     @Override
@@ -196,8 +208,40 @@ public class AcquisitionService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        helper = new dataHelper(this);
+        // Configs
 
+        configPreferences = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
+
+        // Dataset
+
+        stepCount = 0;
+        kcalTotais = 0.0;
+
+        helper = new dataHelper(this);
+        Cursor dbData = helper.getAll();
+
+        ArrayList <Integer> steps = new ArrayList<>();
+        ArrayList <Double> cal = new ArrayList<>();
+        ArrayList <String> date = new ArrayList<>();
+
+        if (dbData.getCount() != 0)
+        {
+            while (dbData.moveToNext())
+            {
+                steps.add(dbData.getInt(0));
+                cal.add(dbData.getDouble(1));
+                date.add(dbData.getString(3));
+            }
+
+            for (int i = 0; i < steps.size(); i++) {
+                stepCount = stepCount + steps.get(i);
+                kcalTotais = kcalTotais + cal.get(i);
+
+            }
+
+        }
+
+        // Bluetooth
 
         address = intent.getStringExtra("Bluetooth");
         Connect();
@@ -216,7 +260,6 @@ public class AcquisitionService extends Service {
         startForeground(1, notification);
 
         return START_REDELIVER_INTENT;
-
     }
 
     private void Connect() { // Bluetooth connection
@@ -239,7 +282,7 @@ public class AcquisitionService extends Service {
     {
         stepCounter();
         calculateKcal();
-        sendDataToActivity(stepCount,kcalTotais);
+        sendDataToActivity(stepCount, kcalTotais);
     }
 
     private void sendDataToActivity(int stepCount, double kcal) {
@@ -302,8 +345,11 @@ public class AcquisitionService extends Service {
     }
 
     private void calculateKcal() {
-        kcalTotais = (0.001064 + agregadoMagnitudes
-                + 0.087512 * 75 - 5.500229)/2500;
+        Weight = configPreferences.getInt(WEIGHT,70);
+        final int fs = 10;
+        final int adjustment = fs * 60;
+        kcalTotais = ((0.001064 * agregadoMagnitudes + 0.087512 * Weight - 5.500229)/adjustment); // Equation for every min so its adjusted
+        Log.d(TAG, "calculateKcal: " + kcalTotais);
     }
 
     private void encherDados(Double x, Double y, Double z){
@@ -311,7 +357,6 @@ public class AcquisitionService extends Service {
         dadosAnteriores[1] = y;
         dadosAnteriores[2] = z;
     }
-
 
     @Override
     public void onDestroy() {
