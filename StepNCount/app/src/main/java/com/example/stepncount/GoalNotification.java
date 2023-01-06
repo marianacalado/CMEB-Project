@@ -5,9 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
-public class AcquisitionNotification extends Application {
-
-    public static final String CHANNEL_ID = "AcquisitionNotification";
+public class GoalNotification extends Application {
+    public static final String CHANNEL_ID2 = "GoalNotification";
 
     @Override
     public void onCreate() {
@@ -17,13 +16,13 @@ public class AcquisitionNotification extends Application {
 
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID, "Acquisition",
+            NotificationChannel achievementChannel = new NotificationChannel(
+                    CHANNEL_ID2, "Goal",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
             NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
+            manager.createNotificationChannel(achievementChannel);
         }
     }
 }

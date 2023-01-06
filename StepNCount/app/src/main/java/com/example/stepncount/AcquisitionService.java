@@ -3,19 +3,21 @@ package com.example.stepncount;
 import static com.example.stepncount.AcquisitionNotification.CHANNEL_ID;
 import static com.example.stepncount.ConfigActivity.CONFIG_PREFS;
 import static com.example.stepncount.ConfigActivity.WEIGHT;
+import static com.example.stepncount.GoalNotification.CHANNEL_ID2;
+import static com.example.stepncount.GoalsActivity.CAL_GOAL;
+import static com.example.stepncount.GoalsActivity.DIST_GOAL;
+import static com.example.stepncount.GoalsActivity.DIST_GOAL_U;
+import static com.example.stepncount.GoalsActivity.GOALS_PREFS;
+import static com.example.stepncount.GoalsActivity.STEPS_GOAL;
+import static com.example.stepncount.GoalsActivity.TIME_GOAL;
+import static com.example.stepncount.GoalsActivity.TIME_GOAL_U;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
-import android.content.AttributionSource;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,19 +25,13 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
-import android.util.TimingLogger;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.strictmode.FragmentStrictMode;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.github.mikephil.charting.data.Entry;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,7 +62,7 @@ public class AcquisitionService extends Service {
     private int numOfPushButton = 0;
     private String deviceId = "";
     private String firmwareVersion = "";
-    private byte accSensibility = 0;    // NOTE: 2G= 0, 4G= 1
+    private byte accSensibility = 1;    // NOTE: 2G= 0, 4G= 1
     private byte typeRadioEvent = 0;
     private byte[] infoRadioEvent = null;
     private short countEvent = 0;
@@ -89,8 +85,18 @@ public class AcquisitionService extends Service {
     private Date currentTime;
 
     // Config
+
     private SharedPreferences configPreferences;
     private int Weight;
+
+    // Goals
+
+    private int Steps;
+    private int Calories;
+    private int Distance;
+    private int Time;
+    private String TimeU; // U for the string Unit (e.g., h or min)
+    private String DistU;
 
     @Nullable
     @Override
@@ -212,6 +218,17 @@ public class AcquisitionService extends Service {
 
         configPreferences = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
 
+        // Goals
+
+        SharedPreferences goalsPreferences = getSharedPreferences(GOALS_PREFS, MODE_PRIVATE);
+
+        Steps = goalsPreferences.getInt(STEPS_GOAL,10000);
+        Calories = goalsPreferences.getInt(CAL_GOAL,685);
+        Distance = goalsPreferences.getInt(DIST_GOAL, 8);
+        Time = goalsPreferences.getInt(TIME_GOAL,1);
+        DistU = goalsPreferences.getString(DIST_GOAL_U, "Km");
+        TimeU = goalsPreferences.getString(TIME_GOAL_U,"h");
+
         // Dataset
 
         stepCount = 0;
@@ -241,6 +258,8 @@ public class AcquisitionService extends Service {
 
         }
 
+        helper.close();
+
         // Bluetooth
 
         address = intent.getStringExtra("Bluetooth");
@@ -253,7 +272,7 @@ public class AcquisitionService extends Service {
         android.app.Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Acquiring data...")
                 .setContentText("Counting Steps")
-                .setSmallIcon(R.drawable.ic_android)
+                .setSmallIcon(R.drawable.iconapp)
                 .setContentIntent(pendingIntent)
                 .build();
 
@@ -282,7 +301,18 @@ public class AcquisitionService extends Service {
     {
         stepCounter();
         calculateKcal();
+
         sendDataToActivity(stepCount, kcalTotais);
+
+       //if(stepCount == Steps)
+       //{
+       //    Log.d(TAG, "dataReady: Steps goal accomplished!");
+       //    goalsNotification("Steps",R.drawable.steps_icon);
+       //}
+       //else if (Math.round(kcalTotais) == Calories)
+       //{
+       //    goalsNotification("Calories",R.drawable.cal);
+       //}
     }
 
     private void sendDataToActivity(int stepCount, double kcal) {
@@ -302,11 +332,43 @@ public class AcquisitionService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
+    private void adddata(){ // Add data to dataset
+        helper.insert(stepCount, kcalTotais, 0, currentTime.toString() ); //falta por estes argumentos timeT, mudar variavel de dist
+    }
+
+    private void goalsNotification(String message, int icon){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID2);
+        builder.setContentTitle("Congratulations!");
+        builder.setContentTitle("You have accomplished your " + message + " goal!");
+        builder.setSmallIcon(icon);
+        builder.setAutoCancel(true); // True for swipe.
+
+        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+        manager.notify(2,builder.build());
+
+    }
+
+
+    @Override
+    public void onDestroy() { // Destroy service
+        super.onDestroy();
+
+        if(dataACC != null) {
+            adddata();
+        }
+        Intent searchAct = new Intent(getApplicationContext(), SearchDeviceActivity.class);
+        searchAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(searchAct);
+
+        helper.close();
+
+        stopForeground(true);
+        stopSelf();
+    }
+
     /* ---------------------------------------------------------- Data processing ----------------------------------------------------------------------*/
 
     private void stepCounter() {
-
-        //System.out.println("---------------------------------------------------------- Background Service ----------------------------------------------------------------------");
 
         Double x = (double) dataACC.X;
         Double y = (double) dataACC.Y;
@@ -320,7 +382,6 @@ public class AcquisitionService extends Service {
         agregadoMagnitudes += Math.abs(MagnitudeDelta);
         encherDados(x, y, z);
 
-        //System.out.println("------------------------------------------------------------ Counting Steps ------------------------------------------------------------------------");
         currentTime = Calendar.getInstance().getTime();
         if (MagnitudeDelta >= 16.5 && MagnitudeDelta < 30) {
             stepCount++;
@@ -348,8 +409,8 @@ public class AcquisitionService extends Service {
         Weight = configPreferences.getInt(WEIGHT,70);
         final int fs = 10;
         final int adjustment = fs * 60;
-        kcalTotais = ((0.001064 * agregadoMagnitudes + 0.087512 * Weight - 5.500229)/adjustment); // Equation for every min so its adjusted
-        Log.d(TAG, "calculateKcal: " + kcalTotais);
+        kcalTotais = ((0.001064 * agregadoMagnitudes + 0.087512 * Weight - 5.500229)/adjustment);
+        // Equation for every min so its adjusted
     }
 
     private void encherDados(Double x, Double y, Double z){
@@ -357,29 +418,6 @@ public class AcquisitionService extends Service {
         dadosAnteriores[1] = y;
         dadosAnteriores[2] = z;
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if(dataACC != null) {
-            adddata();
-        }
-        Intent searchAct = new Intent(getApplicationContext(), SearchDeviceActivity.class);
-        searchAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(searchAct);
-
-        helper.close();
-
-        stopForeground(true);
-        stopSelf();
-    }
-
-    public void adddata(){
-        helper.insert(stepCount, kcalTotais, 0, currentTime.toString() ); //falta por estes argumentos timeT, mudar variavel de dist
-    }
-
-
 }
 
 

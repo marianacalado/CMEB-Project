@@ -1,5 +1,8 @@
 package com.example.stepncount;
 
+import static com.example.stepncount.ConfigActivity.CONFIG_PREFS;
+import static com.example.stepncount.ConfigActivity.TDEE;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -53,6 +56,14 @@ public class GoalsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goals);
 
+        // TDEE
+
+        SharedPreferences configPreferences = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
+        int tdee = configPreferences.getInt(TDEE,2000);
+
+        TextView TDEEtxt = findViewById(R.id.TDEE);
+        TDEEtxt.setText("Average TDEE: " + tdee + " Kcal");
+
         SharedPreferences goalsPreferences = getSharedPreferences(GOALS_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = goalsPreferences.edit();
 
@@ -78,7 +89,6 @@ public class GoalsActivity extends AppCompatActivity {
 
         // Steps
 
-        stepTxt.setText("10000 steps");
         stepMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +115,7 @@ public class GoalsActivity extends AppCompatActivity {
 
         // Calories
 
-        calTxt.setText("500 Cal");
+        int adjCal = (int) Math.round(tdee * 0.3);
 
         calMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +149,6 @@ public class GoalsActivity extends AppCompatActivity {
         });
 
         // Distance
-
-        distTxt.setText("8 Km");
 
         distMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,8 +199,6 @@ public class GoalsActivity extends AppCompatActivity {
         });
 
         // Time
-
-        timeTxt.setText("1 h");
 
         timeMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,8 +293,7 @@ public class GoalsActivity extends AppCompatActivity {
             }
         });
 
-        loadData();
-
+        loadData(adjCal);
     }
 
     public static String[] extractDigits(String args){ // Substitutes all non-digit characters for empty chars
@@ -314,13 +319,13 @@ public class GoalsActivity extends AppCompatActivity {
         }
     }
 
-    public void loadData(){
+    public void loadData(int calCal){
 
         // Load goal shared preferences
 
         SharedPreferences goalPreferences = getSharedPreferences(GOALS_PREFS, MODE_PRIVATE);
         Steps = goalPreferences.getInt(STEPS_GOAL,10000);
-        Calories = goalPreferences.getInt(CAL_GOAL,500);
+        Calories = goalPreferences.getInt(CAL_GOAL,calCal);
         Distance = goalPreferences.getInt(DIST_GOAL, 8);
         Time = goalPreferences.getInt(TIME_GOAL,1);
         DistU = goalPreferences.getString(DIST_GOAL_U, "Km");
@@ -329,7 +334,7 @@ public class GoalsActivity extends AppCompatActivity {
         // Updating views
 
         stepTxt.setText(String.valueOf(Steps));
-        calTxt.setText(Calories + " Cal");
+        calTxt.setText(Calories + " Kcal");
         distTxt.setText(Distance + " " + DistU);
         timeTxt.setText(Time + " " + TimeU);
     }

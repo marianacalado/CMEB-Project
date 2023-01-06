@@ -21,6 +21,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RotateDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -198,7 +199,7 @@ public class ResultsActivity extends AppCompatActivity {
                 float dayTime = time.get(idx).getY();
 
                 stepsT.setText(String.valueOf((int) dayStep));
-                calT.setText(String.valueOf(dayCal));
+                calT.setText(dayCal + " Cal");
                 distT.setText(String.valueOf(dayDist));
                 timeT.setText(String.valueOf(dayTime));
 

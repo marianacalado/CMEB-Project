@@ -20,11 +20,13 @@ public class ConfigActivity extends AppCompatActivity {
     public static final String WEIGHT = "weightPrefs";
     public static final String BIRTH = "birthPrefs";
     public static final String HEIGHT = "heightPrefs";
+    public static final String TDEE = "TDEEPrefs";
 
     private String Gender;
     private int Weight;
     private int Birth;
     private int Height;
+    private int tdee;
 
     /* ------------------------------- Global variables  ------------------------------- */
 
@@ -89,11 +91,11 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        // Year of birth picker
+        // Age picker
 
         birthPck = findViewById(R.id.birthPick);
-        birthPck.setMinValue(1940);
-        birthPck.setMaxValue(2012);
+        birthPck.setMinValue(14);
+        birthPck.setMaxValue(80);
         birthPck.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
@@ -119,7 +121,7 @@ public class ConfigActivity extends AppCompatActivity {
         {
             genderPck.setDisplayedValues(gen);
             weightPck.setValue(70);
-            birthPck.setValue(1997);
+            birthPck.setValue(25);
             heightPck.setValue(165);
 
             System.out.println(" ----------------------------------------------------------- First Start ----------------------------------------------------------- ");
@@ -152,6 +154,17 @@ public class ConfigActivity extends AppCompatActivity {
                 editor.putInt(BIRTH, birthInp);
                 editor.putInt(HEIGHT, heightInp);
                 editor.putBoolean("firstStart",false); // Defined on the main activity
+
+                // TDEE calculation
+
+                tdee = (int) Math.round((10 * weightInp) + (6.25 * heightInp) - (5 - birthInp));
+
+                if (genderInp == "Male")
+                {tdee = (int) Math.round((tdee + 5) * 1.15);}
+                else
+                {tdee = (int) Math.round((tdee - 161) * 1.15);}
+
+                editor.putInt(TDEE, tdee);
 
                 editor.apply();
 
