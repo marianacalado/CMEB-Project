@@ -3,9 +3,11 @@ package com.example.stepncount;
 
 import static com.example.stepncount.GoalsActivity.CAL_GOAL;
 import static com.example.stepncount.GoalsActivity.DIST_GOAL;
+import static com.example.stepncount.GoalsActivity.DIST_GOAL_U;
 import static com.example.stepncount.GoalsActivity.GOALS_PREFS;
 import static com.example.stepncount.GoalsActivity.STEPS_GOAL;
 import static com.example.stepncount.GoalsActivity.TIME_GOAL;
+import static com.example.stepncount.GoalsActivity.TIME_GOAL_U;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -21,6 +23,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RotateDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +42,7 @@ import java.util.ArrayList;
 public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "Results";
+    private final Handler acquisition = new Handler();
 
     // View variables
 
@@ -53,6 +57,8 @@ public class ResultsActivity extends AppCompatActivity {
     private int calGoal;
     private int distGoal;
     private int timeGoal;
+    private String timeU; // U for the string Unit (e.g., h or min)
+    private String distU;
 
     // Text views
 
@@ -62,6 +68,7 @@ public class ResultsActivity extends AppCompatActivity {
     private TextView timeT;
 
     private TextView batteryView;
+    private TextView statusView;
 
     // Decimal format
 
@@ -85,6 +92,7 @@ public class ResultsActivity extends AppCompatActivity {
         df = new DecimalFormat("#.#");
 
         batteryView = findViewById(R.id.battery);
+        statusView = findViewById(R.id.statusTxt);
 
         // Goals
 
@@ -94,6 +102,8 @@ public class ResultsActivity extends AppCompatActivity {
         calGoal = goalPref.getInt(CAL_GOAL, 500);
         distGoal = goalPref.getInt(DIST_GOAL, 8);
         timeGoal = goalPref.getInt(TIME_GOAL, 1);
+        distU = goalPref.getString(DIST_GOAL_U, "Km");
+        timeU = goalPref.getString(TIME_GOAL_U,"h");
 
         // Importing color scheme from Resource Files: res/values/colors.xml
 
@@ -113,23 +123,23 @@ public class ResultsActivity extends AppCompatActivity {
 
         ArrayList<Entry> steps = new ArrayList<>();
 
-        steps.add(new Entry(0, 0));
-        steps.add(new Entry(1, 0));
-        steps.add(new Entry(2, 0));
-        steps.add(new Entry(3,0));
-        steps.add(new Entry(4, 0));
-        steps.add(new Entry(5, 0));
+        steps.add(new Entry(0, 12));
+        steps.add(new Entry(1, 42));
+        steps.add(new Entry(2, 90));
+        steps.add(new Entry(3,57));
+        steps.add(new Entry(4, 54));
+        steps.add(new Entry(5, 6));
         steps.add(new Entry(6, 0));
 
         // Calories
 
         ArrayList<Entry> calories = new ArrayList<>();
 
-        calories.add(new Entry(0, 0));
-        calories.add(new Entry(1, 0));
-        calories.add(new Entry(2, 0));
-        calories.add(new Entry(3, 0));
-        calories.add(new Entry(4, 0));
+        calories.add(new Entry(0, 1));
+        calories.add(new Entry(1, 3));
+        calories.add(new Entry(2, 5));
+        calories.add(new Entry(3, 2));
+        calories.add(new Entry(4, 2));
         calories.add(new Entry(5, 0));
         calories.add(new Entry(6, 0));
 
@@ -137,23 +147,23 @@ public class ResultsActivity extends AppCompatActivity {
 
         ArrayList<Entry> distance = new ArrayList<>();
 
-        distance.add(new Entry(0, (float) 0));
-        distance.add(new Entry(1, (float) 0));
-        distance.add(new Entry(2, (float) 0));
-        distance.add(new Entry(3, (float) 0));
-        distance.add(new Entry(4, (float) 0));
-        distance.add(new Entry(5, (float) 0));
+        distance.add(new Entry(0,10));
+        distance.add(new Entry(1, 35));
+        distance.add(new Entry(2, 80));
+        distance.add(new Entry(3, 50));
+        distance.add(new Entry(4, 45));
+        distance.add(new Entry(5, 4));
         distance.add(new Entry(6, (float) 0));
 
         // Time
 
         ArrayList<Entry> time = new ArrayList<>();
 
-        time.add(new Entry(0, 0));
-        time.add(new Entry(1, 0));
-        time.add(new Entry(2, 0));
-        time.add(new Entry(3, 0));
-        time.add(new Entry(4, 0));
+        time.add(new Entry(0, 1));
+        time.add(new Entry(1, 2));
+        time.add(new Entry(2, 4));
+        time.add(new Entry(3, 2));
+        time.add(new Entry(4, 2));
         time.add(new Entry(5, 0));
         time.add(new Entry(6, 0));
 
@@ -195,15 +205,15 @@ public class ResultsActivity extends AppCompatActivity {
                 }
 
                 float dayCal = calories.get(idx).getY();
-                float dayDist = distance.get(idx).getY();
-                float dayTime = time.get(idx).getY();
+                int dayDist = (int) distance.get(idx).getY();
+                int dayTime = (int) time.get(idx).getY();
 
                 stepsT.setText(String.valueOf((int) dayStep));
-                calT.setText(dayCal + " Cal");
-                distT.setText(String.valueOf(dayDist));
-                timeT.setText(String.valueOf(dayTime));
+                calT.setText(dayCal + " Kcal");
+                distT.setText(dayDist + " m");
+                timeT.setText(dayTime + " min");
 
-                updateBarProgress(dayStep, dayCal, dayDist, dayTime);
+                updateBarProgress(dayStep, dayCal, (float) dayDist,(float) dayTime);
 
             }
 
@@ -213,8 +223,14 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
-        dataStream();
-        batteryStream();
+
+
+            dataStream();
+            batteryStream();
+
+
+
+
 
         /* ------------------------------- Goal Button ------------------------------- */
 
@@ -232,22 +248,15 @@ public class ResultsActivity extends AppCompatActivity {
             startActivity(openConfig);
 
         });
-
-        /* ------------------------------- Expand Button ------------------------------- */
-
-        Button expandBtn = findViewById(R.id.expandBtn);
-        expandBtn.setOnClickListener(view -> {
-            Intent opengraphPage = new Intent(getApplicationContext(), GraphsActivity.class);
-            startActivity(opengraphPage);
-
-        });
-
     }
 
     public void dataStream() { //
+
+
         BroadcastReceiver dataReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
 
                 // Get data included in the Intent from service
 
@@ -255,16 +264,20 @@ public class ResultsActivity extends AppCompatActivity {
 
                 int updatedSteps = b.getInt("Steps", 0);
                 double updatedCal = b.getDouble("Kcal", 0);
+                int updatedDist = b.getInt("Dist",0);
+                int updatedTime = b.getInt("Time",0);
 
                 if (xPoint == 6) { // Receive intent with data and update the Progress only if the nothing is selected or the current's day value is selected
 
                     stepsT.setText(String.valueOf(updatedSteps));
                     calT.setText(df.format(updatedCal) + " Kcal");
+                    distT.setText(updatedDist + " m");
+                    timeT.setText(updatedTime + " min");
 
-                    updateBarProgress((float) updatedSteps, (float) updatedCal, 0, 0);
+                    updateBarProgress((float) updatedSteps, (float) updatedCal, (float) updatedDist, (float) updatedTime);
                 }
 
-                // Keeps updating
+                // Keeps updating Chart
 
                 weekSteps.removeLast();
                 weekSteps.addEntry(new Entry(6,updatedSteps));
@@ -272,6 +285,32 @@ public class ResultsActivity extends AppCompatActivity {
                 graph.updateUpperThreshold(updatedSteps, StepsDataPointsColor);
                 chart.notifyDataSetChanged(); // Let the chart know it's data changed
                 chart.invalidate(); // Refresh
+
+                // Status detection
+
+                Drawable statusDraw = null;
+
+                // Get data included in the Intent from service
+
+                int st = b.getInt("Status", 0);
+
+                try {
+                    if (st == 0)
+                    {
+                        statusDraw = ContextCompat.getDrawable(getApplicationContext(), R.drawable.restingicon);
+                    }
+                    else if(st == 1)
+                    {
+                        statusDraw = ContextCompat.getDrawable(getApplicationContext(), R.drawable.walkingicon);
+                    }
+                    else
+                    {
+                        statusDraw = ContextCompat.getDrawable(getApplicationContext(), R.drawable.runningicon);
+                    }
+
+                    statusView.setCompoundDrawablesWithIntrinsicBounds(null, statusDraw, null,null);
+
+                }catch (Exception ex){System.out.println("Exception: " + ex.getMessage());}
             }
         };
 
@@ -279,10 +318,12 @@ public class ResultsActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
                 dataReceiver, new IntentFilter("Update UI"));
+
     }
 
 
     public void batteryStream() { // Battery
+
         BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -310,11 +351,9 @@ public class ResultsActivity extends AppCompatActivity {
                 else
                 {
                     batLevel = ContextCompat.getDrawable(getApplicationContext(), R.drawable.lowbat);
-
                 }
 
                 // Resize drawable
-
 
                 Bitmap bitmap = ((BitmapDrawable) batLevel).getBitmap();
                 Drawable drawBat = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 45, 20, true));
@@ -324,11 +363,13 @@ public class ResultsActivity extends AppCompatActivity {
             }
         };
 
-        // Register the service
+                // Register the service
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
                 batteryReceiver, new IntentFilter("Update Battery UI"));
     }
+
+
 
 
     public void updateBarProgress(float dayStep, float dayCal, float dayDist, float dayTime){
@@ -337,8 +378,24 @@ public class ResultsActivity extends AppCompatActivity {
 
         stepsBar.setProgress(Math.round(dayStep/stepGoal * 100));
         calsBar.setProgress(Math.round(dayCal/calGoal * 100));
-        distBar.setProgress(Math.round(dayDist/distGoal * 100));
-        timeBar.setProgress(Math.round(dayTime/timeGoal * 100));
+        if(distU.equals("Km"))
+        {
+            distBar.setProgress(Math.round((dayDist/(distGoal*1000)) * 100));
+        }
+        else
+        {
+            distBar.setProgress(Math.round((dayDist/(distGoal)) * 100));
+        }
+
+        if(timeU.equals("h"))
+        {
+            timeBar.setProgress(Math.round((dayTime/(timeGoal*60)) * 100));
+        }
+        else
+        {
+            timeBar.setProgress(Math.round(dayTime/timeGoal * 100));
+        }
+
 
     }
 

@@ -2,8 +2,9 @@ package com.example.stepncount;
 
 import static com.example.stepncount.AcquisitionNotification.CHANNEL_ID;
 import static com.example.stepncount.ConfigActivity.CONFIG_PREFS;
+import static com.example.stepncount.ConfigActivity.GENDER;
+import static com.example.stepncount.ConfigActivity.HEIGHT;
 import static com.example.stepncount.ConfigActivity.WEIGHT;
-import static com.example.stepncount.GoalNotification.CHANNEL_ID2;
 import static com.example.stepncount.GoalsActivity.CAL_GOAL;
 import static com.example.stepncount.GoalsActivity.DIST_GOAL;
 import static com.example.stepncount.GoalsActivity.DIST_GOAL_U;
@@ -12,13 +13,19 @@ import static com.example.stepncount.GoalsActivity.STEPS_GOAL;
 import static com.example.stepncount.GoalsActivity.TIME_GOAL;
 import static com.example.stepncount.GoalsActivity.TIME_GOAL_U;
 
+import static java.lang.Math.abs;
+
+
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -32,9 +39,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import Bio.Library.namespace.BioLib;
 
@@ -74,10 +84,16 @@ public class AcquisitionService extends Service {
     private static Double[] dadosAnteriores = {0.0,0.0,0.0};
     private static double agregadoMagnitudes = 0.0;
     private static Double kcalTotais;
-    private static int notMovingCounter = 0;
-    private static int walkingCounter = 0;
-    private static int runningCounter = 0;
+    private static int status = 0;
     private static Integer stepCount = 0;
+    private static Integer distCount = 0;
+    private static Integer timeCount = 0;
+    private static Integer sec = 0;
+    private static Integer min = 0;
+    private static Integer hour = 0;
+    private int runningCounter = 0;
+    private int walkingCounter = 0;
+    private int notMovingCounter = 0;
 
     // DB
 
@@ -88,6 +104,8 @@ public class AcquisitionService extends Service {
 
     private SharedPreferences configPreferences;
     private int Weight;
+    private int Height;
+    private String Gender;
 
     // Goals
 
@@ -97,6 +115,8 @@ public class AcquisitionService extends Service {
     private int Time;
     private String TimeU; // U for the string Unit (e.g., h or min)
     private String DistU;
+    public static final String CHANNEL_ID2 = "GoalNotification";
+
 
     @Nullable
     @Override
@@ -214,6 +234,14 @@ public class AcquisitionService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        // Time
+
+        DateFormat format = new SimpleDateFormat("HH/mm/ss", Locale.UK);
+        String now = format.format(Calendar.getInstance().getTime());
+        min = Integer.valueOf(now.substring(3,5));
+        hour = Integer.valueOf(now.substring(0,2));
+        sec = Integer.valueOf(now.substring(6,8));
+
         // Configs
 
         configPreferences = getSharedPreferences(CONFIG_PREFS, MODE_PRIVATE);
@@ -226,20 +254,24 @@ public class AcquisitionService extends Service {
         Calories = goalsPreferences.getInt(CAL_GOAL,685);
         Distance = goalsPreferences.getInt(DIST_GOAL, 8);
         Time = goalsPreferences.getInt(TIME_GOAL,1);
-        DistU = goalsPreferences.getString(DIST_GOAL_U, "Km");
+        DistU = goalsPreferences.getString(DIST_GOAL_U,"Km");
         TimeU = goalsPreferences.getString(TIME_GOAL_U,"h");
 
         // Dataset
 
         stepCount = 0;
         kcalTotais = 0.0;
+        distCount = 0;
+        timeCount = 0;
 
         helper = new dataHelper(this);
         Cursor dbData = helper.getAll();
 
         ArrayList <Integer> steps = new ArrayList<>();
         ArrayList <Double> cal = new ArrayList<>();
-        ArrayList <String> date = new ArrayList<>();
+        ArrayList <Integer> dist = new ArrayList<>();
+        ArrayList <Integer> time = new ArrayList<>();
+
 
         if (dbData.getCount() != 0)
         {
@@ -247,15 +279,16 @@ public class AcquisitionService extends Service {
             {
                 steps.add(dbData.getInt(0));
                 cal.add(dbData.getDouble(1));
-                date.add(dbData.getString(3));
+                dist.add(dbData.getInt(2));
+                time.add(dbData.getInt(3));
             }
 
             for (int i = 0; i < steps.size(); i++) {
                 stepCount = stepCount + steps.get(i);
                 kcalTotais = kcalTotais + cal.get(i);
-
+                distCount = distCount + dist.get(i);
+                timeCount = timeCount + time.get(i);
             }
-
         }
 
         helper.close();
@@ -299,27 +332,38 @@ public class AcquisitionService extends Service {
 
     private void dataReady()
     {
+
         stepCounter();
         calculateKcal();
 
-        sendDataToActivity(stepCount, kcalTotais);
+        sendDataToActivity(stepCount, kcalTotais, distCount,timeCount, status);
 
-       //if(stepCount == Steps)
-       //{
-       //    Log.d(TAG, "dataReady: Steps goal accomplished!");
-       //    goalsNotification("Steps",R.drawable.steps_icon);
-       //}
-       //else if (Math.round(kcalTotais) == Calories)
-       //{
-       //    goalsNotification("Calories",R.drawable.cal);
-       //}
+        createNotificationChannel();
+
+        if(stepCount == Steps)
+        {
+            goalsNotification("Steps",R.drawable.steps_icon);
+        }
+        else if (Math.round(kcalTotais) == Calories)
+        {
+            goalsNotification("Calories",R.drawable.calicon);
+
+        }
+        else if (distCount == Distance)
+        {
+            goalsNotification("Distance",R.drawable.distanceicon);
+        }
+
     }
 
-    private void sendDataToActivity(int stepCount, double kcal) {
+    private void sendDataToActivity(int stepCount, double kcal, int distCount,int timeCount, int status) {
         Intent intent = new Intent("Update UI");
         Bundle b = new Bundle();
         b.putInt("Steps", stepCount);
         b.putDouble("Kcal", kcal);
+        b.putInt("Dist",distCount);
+        b.putInt("Time",timeCount);
+        b.putInt("Status",status);
         intent.putExtra("AppData", b);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
@@ -332,12 +376,13 @@ public class AcquisitionService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    private void adddata(){ // Add data to dataset
-        helper.insert(stepCount, kcalTotais, 0, currentTime.toString() ); //falta por estes argumentos timeT, mudar variavel de dist
+    private void adddata() { // Add data to dataset
+        helper.insert(stepCount, kcalTotais, distCount, timeCount, currentTime.toString());
     }
 
     private void goalsNotification(String message, int icon){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID2);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID2);
         builder.setContentTitle("Congratulations!");
         builder.setContentTitle("You have accomplished your " + message + " goal!");
         builder.setSmallIcon(icon);
@@ -346,6 +391,18 @@ public class AcquisitionService extends Service {
         NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
         manager.notify(2,builder.build());
 
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel achievementChannel = new NotificationChannel(
+                    CHANNEL_ID2, "Goal",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(achievementChannel);
+        }
     }
 
 
@@ -370,6 +427,12 @@ public class AcquisitionService extends Service {
 
     private void stepCounter() {
 
+        DateFormat format = new SimpleDateFormat("HH/mm/ss", Locale.UK);
+        String date = format.format(Calendar.getInstance().getTime());
+        int newmin = Integer.valueOf(date.substring(3,5));
+        int newhour = Integer.valueOf(date.substring(0,1));
+        int newsec = Integer.valueOf(date.substring(6,8));
+
         Double x = (double) dataACC.X;
         Double y = (double) dataACC.Y;
         Double z = (double) dataACC.Z;
@@ -379,44 +442,93 @@ public class AcquisitionService extends Service {
         double MagnitudePrevious = Math.sqrt(dadosAnteriores[0] * dadosAnteriores[0] + dadosAnteriores[1] * dadosAnteriores[1] + dadosAnteriores[2] * dadosAnteriores[2]);
         double Magnitude = Math.sqrt(x * x + y * y + z * z);
         double MagnitudeDelta = Magnitude - MagnitudePrevious;
-        agregadoMagnitudes += Math.abs(MagnitudeDelta);
+        agregadoMagnitudes += abs(MagnitudeDelta);
         encherDados(x, y, z);
 
         currentTime = Calendar.getInstance().getTime();
-        if (MagnitudeDelta >= 16.5 && MagnitudeDelta < 30) {
-            stepCount++;
-            walkingCounter++;
-            if (walkingCounter == 3) {
-                walkingCounter = 0;
-            }
-        } else if (MagnitudeDelta < 5) {
-            notMovingCounter++;
-            if (notMovingCounter == 3) {
-                notMovingCounter = 0;
-            }
-        } else if (MagnitudeDelta > 30) {
-            stepCount++;
-            runningCounter++;
-            if (runningCounter == 3) {
-                runningCounter = 0;
-            }
 
+        if (MagnitudeDelta >= 30 && MagnitudeDelta <= 90)
+        {
+            stepCount++;
+            distance();
+            time(newhour,newmin,newsec);
+            notMovingCounter=0;
+            status = 1;
         }
-
+        else if (MagnitudeDelta > 90)
+        {
+            stepCount++;
+            distance();
+            time(newhour, newmin,newsec);
+            status = 2;
+            notMovingCounter=0;
+        }
+        else
+        {
+            notMovingCounter++;
+            min = Integer.valueOf(date.substring(3,5));
+            hour = Integer.valueOf(date.substring(0,1));
+            sec = Integer.valueOf(date.substring(6,7));
+            walkingCounter=0;
+            if(notMovingCounter >=15)
+            {
+                status = 0;
+            }
+        }
     }
 
     private void calculateKcal() {
         Weight = configPreferences.getInt(WEIGHT,70);
         final int fs = 10;
         final int adjustment = fs * 60;
-        kcalTotais = ((0.001064 * agregadoMagnitudes + 0.087512 * Weight - 5.500229)/adjustment);
+        kcalTotais = ((0.001064 * agregadoMagnitudes + 0.087512 * Weight - 5.500229)/fs);
         // Equation for every min so its adjusted
+    }
+
+    private void distance(){
+        Height = configPreferences.getInt(HEIGHT,165);
+        Gender = configPreferences.getString(GENDER,"Male");
+
+        if(Gender.equals("Male"))
+        {
+            distCount = (int) Math.round((0.415 * Height/100) * stepCount);
+        }
+        else
+        {
+            distCount = (int) Math.round((0.413 * Height/100) * stepCount);
+        }
+
+        distCount++;
     }
 
     private void encherDados(Double x, Double y, Double z){
         dadosAnteriores[0] = x;
         dadosAnteriores[1] = y;
         dadosAnteriores[2] = z;
+    }
+
+    public void time(int h, int m, int s){
+
+        if(s - sec >= 0)
+        {
+            timeCount = Math.round(timeCount + (s - sec)/60);
+        }
+        else
+        {
+            timeCount = timeCount + s/60;
+        }
+        if(m - min >= 0)
+        {
+            timeCount = timeCount + (m- min);
+        }
+        else
+        {
+            timeCount = timeCount + m;
+        }
+
+        if (h-hour >= 0){
+            timeCount = timeCount + (h - hour)*60;
+        }
     }
 }
 

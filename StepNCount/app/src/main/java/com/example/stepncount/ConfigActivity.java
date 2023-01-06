@@ -159,7 +159,7 @@ public class ConfigActivity extends AppCompatActivity {
 
                 tdee = (int) Math.round((10 * weightInp) + (6.25 * heightInp) - (5 - birthInp));
 
-                if (genderInp == "Male")
+                if (genderInp.equals("Male"))
                 {tdee = (int) Math.round((tdee + 5) * 1.15);}
                 else
                 {tdee = (int) Math.round((tdee - 161) * 1.15);}

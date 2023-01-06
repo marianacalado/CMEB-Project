@@ -115,7 +115,7 @@ public class GoalsActivity extends AppCompatActivity {
 
         // Calories
 
-        int adjCal = (int) Math.round(tdee * 0.3);
+        int adjCal = (int) Math.round(tdee * 0.25);
 
         calMinus.setOnClickListener(new View.OnClickListener() {
             @Override
