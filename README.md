@@ -1,5 +1,5 @@
 # Android Application - CMEB Project
-Step Counter/ FitGeek app
+Step Counter mobile app
 
 This repository contains a folder with the app project and another folder named "DB Browser for SQLite" that was used to see the database.
 
