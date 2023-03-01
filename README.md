@@ -7,7 +7,7 @@ This repository contains a folder with the app project and another folder named 
 
 Video Teaser: https://www.youtube.com/watch?v=edC8vI6h8vg&feature=youtu.be
 
-<img src="https://i.imgur.com/ZWnhY9T.png](https://user-images.githubusercontent.com/93708709/222200898-a4d331bd-e6a4-419d-8888-9d3bba049b67.jpg" width="150" height="280"
+<img src="https://i.imgur.com/ZWnhY9T.png](https://user-images.githubusercontent.com/93708709/222200898-a4d331bd-e6a4-419d-8888-9d3bba049b67.jpg" width="150" height="280">
 
 ![searchBT](https://user-images.githubusercontent.com/93708709/222191715-0dbb8aee-be3b-483c-93f3-9107a31c0386.jpg | width=100)
 
